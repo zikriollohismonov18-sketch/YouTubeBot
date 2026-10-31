@@ -3,416 +3,534 @@
 <html lang="tg">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YouTubeBot V3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#58cc02">
+<title>DeutschTJ — Олмониро омӯз!</title>
 <style>
+:root{
+  --green:#58cc02;--darkgreen:#46a302;
+  --blue:#1cb0f6;--yellow:#ffc800;
+  --red:#ff4b4b;--purple:#ce82ff;
+  --bg:#f7f9fc;--text:#293445;
+  --muted:#82909d;--line:#e4e9ef
+}
 *{box-sizing:border-box}
-body{margin:0;background:#0d1117;color:#f4f5f7;font-family:Arial,sans-serif}
-header{padding:24px 15px;background:#171d27;text-align:center;border-bottom:3px solid #ff3434}
-h1{margin:0;font-size:27px}
-h2{font-size:20px}
-header p,.small{color:#aeb7c4;font-size:13px}
-main{max-width:950px;margin:auto;padding:15px}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.card{background:#1b2430;padding:18px;border-radius:14px;margin-bottom:15px}
-.number{font-size:30px;font-weight:bold;color:#58f5a2;margin-top:8px}
-label{display:block;margin:12px 0 6px}
-input,select,textarea{width:100%;padding:13px;border:1px solid #465165;border-radius:8px;background:#111821;color:white;font:inherit}
-button{padding:12px 15px;background:#ed3434;color:white;border:0;border-radius:9px;cursor:pointer;margin:5px 4px 5px 0}
-button.secondary{background:#344357}
-button:disabled{opacity:.5}
-.video{border-top:1px solid #354252;padding:15px 0}
-.video h3{overflow-wrap:anywhere}
-.progress{background:#303b49;height:9px;border-radius:10px;overflow:hidden;margin:10px 0}
-.fill{height:100%;background:#58f5a2}
-.notice{color:#ffcf75}
-.comment{padding:12px;border:1px solid #344357;border-radius:9px;margin:10px 0}
-.comment p{overflow-wrap:anywhere}
-a{color:#80bfff}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+.app{max-width:520px;min-height:100vh;margin:auto;
+background:white;padding-bottom:85px}
+header{position:sticky;top:0;z-index:5;background:white;
+border-bottom:1px solid var(--line);padding:15px}
+.brand{font-size:25px;font-weight:900;color:var(--green)}
+.stats{display:flex;justify-content:space-between;
+gap:8px;margin-top:12px;font-weight:bold}
+.stat{background:#f6f8fa;border-radius:14px;
+padding:10px;text-align:center;flex:1;font-size:14px}
+main{padding:18px}
+.hero{background:linear-gradient(135deg,#58cc02,#83df31);
+color:white;border-radius:22px;padding:22px;margin-bottom:20px}
+.hero h2{margin:0 0 8px}
+.hero p{margin:0;line-height:1.5}
+h3{margin:18px 0 12px}
+.path{display:flex;flex-direction:column;align-items:center;gap:18px}
+.lesson{width:85%;border:2px solid var(--line);
+border-radius:20px;padding:14px;display:flex;
+align-items:center;gap:14px;background:white;text-align:left}
+.lesson .circle{height:58px;width:58px;min-width:58px;
+display:grid;place-items:center;border-radius:50%;
+background:var(--green);color:white;font-size:27px;
+box-shadow:0 5px 0 var(--darkgreen)}
+.lesson.locked{opacity:.55}
+.lesson.locked .circle{background:#aaa;box-shadow:0 5px 0 #888}
+.lesson strong{display:block;margin-bottom:5px}
+.lesson small{color:var(--muted)}
+.panel{background:#fff;border:2px solid var(--line);
+border-radius:20px;padding:18px}
+.progress{height:13px;background:#e9eef2;border-radius:20px;
+overflow:hidden;flex:1}
+.fill{height:100%;background:var(--green);
+width:0;transition:.3s}
+.topline{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.close{border:0;background:#f1f3f5;border-radius:12px;
+padding:9px 13px}
+.question{font-size:23px;font-weight:800;line-height:1.4;
+margin:20px 0}
+.answers{display:grid;gap:12px}
+.answer{background:white;border:2px solid var(--line);
+border-bottom-width:4px;border-radius:15px;
+padding:16px;text-align:left;font-weight:bold}
+.answer.selected{border-color:var(--blue);background:#eaf8ff}
+.answer.correct{border-color:var(--green);background:#edffdf}
+.answer.wrong{border-color:var(--red);background:#fff0f0}
+.primary{background:var(--green);border:0;border-bottom:5px solid var(--darkgreen);
+border-radius:15px;color:white;padding:15px;
+font-weight:900;width:100%;margin-top:18px}
+.primary:disabled{background:#cbd1d6;border-color:#aeb5bb}
+.secondary{border:2px solid var(--line);background:white;
+border-radius:12px;padding:12px;font-weight:bold}
+.feedback{margin-top:16px;padding:14px;border-radius:13px;
+background:#f3f8ed;line-height:1.5}
+.speaker{border:0;background:#e5f7ff;color:#0876b6;
+padding:12px 15px;border-radius:14px}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+width:100%;max-width:520px;background:white;border-top:1px solid var(--line);
+display:flex;justify-content:space-around;padding:10px}
+.nav{border:0;background:none;color:#7b8795;font-size:12px;
+font-weight:bold;padding:6px}
+.nav.active{color:var(--green)}
+.nav span{display:block;font-size:23px;margin-bottom:3px}
+.word{display:flex;justify-content:space-between;
+align-items:center;border-bottom:1px solid var(--line);padding:13px 0}
+.word small{display:block;color:var(--muted);margin-top:5px}
+.hidden{display:none!important}
+.badge{display:inline-block;background:#e8f9db;color:#398b00;
+padding:6px 11px;border-radius:12px;font-size:12px;font-weight:bold}
+.center{text-align:center}
+.big{font-size:60px}
 </style>
 </head>
 <body>
+<div class="app">
 <header>
-<h1>🤖 YouTubeBot V3</h1>
-<p>Панели моделсозӣ ва генератори шарҳҳо</p>
+  <div class="brand">🇹🇯 DeutschTJ 🇩🇪</div>
+  <div class="stats">
+    <div class="stat">🔥 <span id="streak">0</span> рӯз</div>
+    <div class="stat">⭐ <span id="xp">0</span> XP</div>
+    <div class="stat">❤️ <span id="hearts">5</span></div>
+  </div>
 </header>
-<main>
 
-<div class="card">
-<p class="notice">
-Ин муҳити озмоишӣ аст. Лайкҳо, ботҳо ва обуначиҳои виртуалӣ ба YouTube фиристода намешаванд.
-</p>
-</div>
-
-<div class="stats">
-<div class="card">
-<div class="small">Аккаунтҳои виртуалӣ</div>
-<div class="number" id="botCount">0</div>
-</div>
-<div class="card">
-<div class="small">Видеоҳо</div>
-<div class="number" id="videoCount">0</div>
-</div>
-<div class="card">
-<div class="small">Лайкҳои озмоишӣ</div>
-<div class="number" id="totalLikes">0</div>
-</div>
-<div class="card">
-<div class="small">Ҳадафи обуначиҳо</div>
-<div class="number">10 000</div>
-</div>
-</div>
-
-<div class="card">
-<h2>🤖 Идоракунии ботҳо</h2>
-<button onclick="createBots()">Сохтани 10 000 бот</button>
-<button class="secondary" onclick="clearAll()">Тоза кардани ҳама</button>
-<p id="message" class="small"></p>
-</div>
-
-<div class="card">
-<h2>🎬 Иловаи видео</h2>
-<label>Номи видео</label>
-<input id="videoTitle" placeholder="Масалан: YouTube Shorts #1" maxlength="150">
-<label>Линки видео (ихтиёрӣ)</label>
-<input id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
-<button onclick="addVideo()">Илова кардан</button>
-</div>
-
-<div class="card">
-<h2>📺 Видеоҳои озмоишӣ</h2>
-<div id="videoList"></div>
-</div>
-
-<div class="card">
-<h2>🌍 Генератори шарҳҳо V3</h2>
-<p class="small">
-Шарҳҳои намунавӣ барои истифода аз ҳисоби худат.
-Ба YouTube худкор фиристода намешаванд.
-</p>
-
-<label>Забони шарҳ</label>
-<select id="commentLang">
-<option value="all">Ҳамаи забонҳо</option>
-<option value="tg">🇹🇯 Тоҷикӣ</option>
-<option value="en">🇬🇧 English</option>
-<option value="de">🇩🇪 Deutsch</option>
-<option value="ru">🇷🇺 Русский</option>
-<option value="es">🇪🇸 Español</option>
-<option value="fr">🇫🇷 Français</option>
-<option value="tr">🇹🇷 Türkçe</option>
-</select>
-
-<label>Намуди шарҳ</label>
-<select id="commentStyle">
-<option value="all">Ҳамаи намудҳо</option>
-<option value="thanks">Ташаккур</option>
-<option value="question">Савол ба тамошобинон</option>
-<option value="next">Пешниҳоди видеои нав</option>
-</select>
-
-<button onclick="generateComments()">✨ Омода кардани шарҳҳо</button>
-<button class="secondary" onclick="copyAllComments()">📋 Нусхаи ҳама</button>
-<div id="generatedComments"></div>
-</div>
-
+<main id="home">
+  <div class="hero">
+    <h2>Олмониро бо бозӣ омӯз!</h2>
+    <p>Ҳар рӯз машқ кун, XP гир ва ба сатҳи нав гузар.</p>
+  </div>
+  <h3>📚 Сатҳи A1 — Дарсҳои аввал</h3>
+  <div class="path" id="lessonPath"></div>
 </main>
 
-<script>
-const KEY="youtube_bot_v2";
-const MAX_BOTS=10000;
-let state=load();
-let generated=[];
+<main id="lessonScreen" class="hidden">
+  <div class="topline">
+    <button class="close" onclick="goHome()">✕</button>
+    <div class="progress"><div class="fill" id="progressFill"></div></div>
+    <span id="lessonHeart">❤️ 5</span>
+  </div>
+  <span class="badge" id="lessonLabel">Дарс</span>
+  <div class="question" id="question"></div>
+  <button class="speaker hidden" id="listenBtn" onclick="listenQuestion()">🔊 Шунидан</button>
+  <div class="answers" id="answers"></div>
+  <div id="feedback" class="feedback hidden"></div>
+  <button class="primary" id="checkBtn" onclick="checkAnswer()" disabled>САНҶИДАН</button>
+</main>
 
-function load(){
- try{
-  const data=JSON.parse(localStorage.getItem(KEY));
-  if(data && Array.isArray(data.videos)){
-   return {
-    bots:data.bots===MAX_BOTS?MAX_BOTS:0,
-    videos:data.videos
-   };
+<main id="resultScreen" class="hidden center">
+  <div class="big">🏆</div>
+  <h2>Дарс анҷом ёфт!</h2>
+  <p id="resultText"></p>
+  <button class="primary" onclick="goHome()">ИДОМА</button>
+</main>
+
+<main id="wordsScreen" class="hidden">
+  <h2>📖 Луғати ман</h2>
+  <p>Калимаҳоро пахш карда талаффузашонро шунав.</p>
+  <div id="wordList"></div>
+</main>
+
+<main id="profileScreen" class="hidden">
+  <h2>👤 Пешрафти ман</h2>
+  <div class="panel">
+    <p>⭐ Холҳо: <b id="profileXP"></b></p>
+    <p>🔥 Рӯзҳои пайдарпай: <b id="profileStreak"></b></p>
+    <p>🏆 Дарсҳои гузашта: <b id="profileDone"></b></p>
+    <p>❤️ Дилҳо: <b id="profileHearts"></b></p>
+    <button class="secondary" onclick="restoreHearts()">❤️ Барқарор кардани дилҳо</button>
+  </div>
+  <p style="color:#82909d;font-size:13px">
+    Пешрафт дар ҳамин браузер нигоҳ дошта мешавад.
+  </p>
+</main>
+
+<nav class="bottom">
+  <button class="nav active" data-tab="home" onclick="showTab('home')">
+    <span>🏠</span>Дарсҳо
+  </button>
+  <button class="nav" data-tab="wordsScreen" onclick="showTab('wordsScreen')">
+    <span>📖</span>Луғат
+  </button>
+  <button class="nav" data-tab="profileScreen" onclick="showTab('profileScreen')">
+    <span>👤</span>Профил
+  </button>
+</nav>
+</div>
+
+<script>
+"use strict";
+
+const lessons=[
+  {
+    title:"Салом ва шиносоӣ",icon:"👋",
+    questions:[
+      {q:"«Салом» ба олмонӣ чӣ мешавад?",
+       options:["Danke","Hallo","Bitte"],correct:1,
+       speak:"Hallo",ex:"Hallo — Салом"},
+      {q:"«Субҳ ба хайр» чӣ мешавад?",
+       options:["Guten Morgen","Gute Nacht","Auf Wiedersehen"],
+       correct:0,speak:"Guten Morgen",ex:"Guten Morgen — Субҳ ба хайр"},
+      {q:"«Ташаккур» чӣ мешавад?",
+       options:["Bitte","Danke","Ja"],correct:1,
+       speak:"Danke",ex:"Danke — Ташаккур"},
+      {q:"«Номи ман Али аст» чӣ мешавад?",
+       options:["Ich heiße Ali","Ich bin müde","Ich komme morgen"],
+       correct:0,speak:"Ich heiße Ali",ex:"Ich heiße Ali — Номи ман Али аст"},
+      {q:"«Аҳволат чӣ хел?» чӣ мешавад?",
+       options:["Wo wohnst du?","Wie geht es dir?","Wie alt bist du?"],
+       correct:1,speak:"Wie geht es dir?",
+       ex:"Wie geht es dir? — Аҳволат чӣ хел?"}
+    ]
+  },
+  {
+    title:"Оила ва одамон",icon:"👨‍👩‍👧",
+    questions:[
+      {q:"«Модар» ба олмонӣ чӣ мешавад?",
+       options:["Vater","Mutter","Bruder"],correct:1,
+       speak:"Mutter",ex:"die Mutter — Модар"},
+      {q:"«Падар» чӣ мешавад?",
+       options:["Vater","Schwester","Kind"],correct:0,
+       speak:"Vater",ex:"der Vater — Падар"},
+      {q:"«Бародар» чӣ мешавад?",
+       options:["Schwester","Bruder","Tochter"],correct:1,
+       speak:"Bruder",ex:"der Bruder — Бародар"},
+      {q:"«Ман ду фарзанд дорам» чӣ мешавад?",
+       options:["Ich habe zwei Kinder","Ich bin zwei Jahre alt","Ich habe zwei Bücher"],
+       correct:0,speak:"Ich habe zwei Kinder",
+       ex:"Ich habe zwei Kinder — Ман ду фарзанд дорам"},
+      {q:"«Ин оилаи ман аст» чӣ мешавад?",
+       options:["Das ist mein Haus","Das ist meine Familie","Das ist mein Auto"],
+       correct:1,speak:"Das ist meine Familie",
+       ex:"Das ist meine Familie — Ин оилаи ман аст"}
+    ]
+  },
+  {
+    title:"Рақамҳо ва синну сол",icon:"🔢",
+    questions:[
+      {q:"«Як» ба олмонӣ чӣ мешавад?",
+       options:["zwei","eins","drei"],correct:1,
+       speak:"eins",ex:"eins — як"},
+      {q:"«Панҷ» чӣ мешавад?",
+       options:["fünf","vier","zehn"],correct:0,
+       speak:"fünf",ex:"fünf — панҷ"},
+      {q:"«Даҳ» чӣ мешавад?",
+       options:["acht","neun","zehn"],correct:2,
+       speak:"zehn",ex:"zehn — даҳ"},
+      {q:"«Ту чандсола ҳастӣ?» чӣ мешавад?",
+       options:["Wie heißt du?","Wie alt bist du?","Wo bist du?"],
+       correct:1,speak:"Wie alt bist du?",
+       ex:"Wie alt bist du? — Ту чандсола ҳастӣ?"},
+      {q:"«Ман 24-сола ҳастам» чӣ мешавад?",
+       options:["Ich bin 24 Jahre alt","Ich habe 24 Euro","Ich komme um 24 Uhr"],
+       correct:0,speak:"Ich bin vierundzwanzig Jahre alt",
+       ex:"Ich bin 24 Jahre alt — Ман 24-сола ҳастам"}
+    ]
+  },
+  {
+    title:"Кор ва зиндагӣ",icon:"💼",
+    questions:[
+      {q:"«Ман кор мекунам» чӣ мешавад?",
+       options:["Ich schlafe","Ich arbeite","Ich esse"],
+       correct:1,speak:"Ich arbeite",ex:"Ich arbeite — Ман кор мекунам"},
+      {q:"«Ман дар Олмон зиндагӣ мекунам» чӣ мешавад?",
+       options:["Ich wohne in Deutschland","Ich komme aus Berlin","Ich lerne Deutsch"],
+       correct:0,speak:"Ich wohne in Deutschland",
+       ex:"Ich wohne in Deutschland — Ман дар Олмон зиндагӣ мекунам"},
+      {q:"«Имрӯз» чӣ мешавад?",
+       options:["gestern","morgen","heute"],correct:2,
+       speak:"heute",ex:"heute — имрӯз"},
+      {q:"«Ман забони олмонӣ меомӯзам» чӣ мешавад?",
+       options:["Ich lerne Deutsch","Ich spreche Tajikisch","Ich brauche Wasser"],
+       correct:0,speak:"Ich lerne Deutsch",
+       ex:"Ich lerne Deutsch — Ман забони олмонӣ меомӯзам"},
+      {q:"«Соати чанд?» чӣ мешавад?",
+       options:["Wie viel kostet das?","Wie spät ist es?","Wo ist das?"],
+       correct:1,speak:"Wie spät ist es?",
+       ex:"Wie spät ist es? — Соати чанд аст?"}
+    ]
+  },
+  {
+    title:"Хӯрок ва харид",icon:"🛒",
+    questions:[
+      {q:"«Об» ба олмонӣ чӣ мешавад?",
+       options:["Brot","Wasser","Milch"],correct:1,
+       speak:"Wasser",ex:"das Wasser — Об"},
+      {q:"«Нон» чӣ мешавад?",
+       options:["Brot","Reis","Apfel"],correct:0,
+       speak:"Brot",ex:"das Brot — Нон"},
+      {q:"«Ин чанд пул аст?» чӣ мешавад?",
+       options:["Wie heißt das?","Wie viel kostet das?","Was machst du?"],
+       correct:1,speak:"Wie viel kostet das?",
+       ex:"Wie viel kostet das? — Ин чанд пул аст?"},
+      {q:"«Ман об мехоҳам» чӣ мешавад?",
+       options:["Ich möchte Wasser","Ich kaufe ein Auto","Ich habe Hunger"],
+       correct:0,speak:"Ich möchte Wasser",
+       ex:"Ich möchte Wasser — Ман об мехоҳам"},
+      {q:"«Ҳисоб, лутфан» чӣ мешавад?",
+       options:["Guten Appetit","Die Rechnung, bitte","Gute Reise"],
+       correct:1,speak:"Die Rechnung, bitte",
+       ex:"Die Rechnung, bitte — Ҳисоб, лутфан"}
+    ]
   }
- }catch(e){}
- return {bots:0,videos:[]};
-}
+];
+
+const vocabulary=[
+  ["Hallo","Салом"],["Guten Morgen","Субҳ ба хайр"],
+  ["Danke","Ташаккур"],["Bitte","Лутфан / Марҳамат"],
+  ["Wie geht es dir?","Аҳволат чӣ хел?"],
+  ["Ich heiße...","Номи ман ... аст"],
+  ["die Mutter","Модар"],["der Vater","Падар"],
+  ["der Bruder","Бародар"],["die Schwester","Хоҳар"],
+  ["die Familie","Оила"],["das Kind","Фарзанд"],
+  ["eins","Як"],["zwei","Ду"],["fünf","Панҷ"],
+  ["zehn","Даҳ"],["heute","Имрӯз"],
+  ["morgen","Пагоҳ"],["arbeiten","Кор кардан"],
+  ["lernen","Омӯхтан"],["das Wasser","Об"],
+  ["das Brot","Нон"],["die Milch","Шир"],
+  ["Wie viel kostet das?","Ин чанд пул аст?"]
+];
+
+const storageKey="deutschtj_v1";
+let state={xp:0,hearts:5,done:[],streak:0,lastDay:""};
+try{
+  const saved=JSON.parse(localStorage.getItem(storageKey)||"null");
+  if(saved&&typeof saved==="object"){
+    state={...state,...saved};
+    if(!Array.isArray(state.done))state.done=[];
+  }
+}catch(e){console.warn("Маълумот хонда нашуд",e)}
+
+let lessonIndex=0;
+let questionIndex=0;
+let selected=-1;
+let checked=false;
+let earned=0;
+let correctCount=0;
+
+const $=id=>document.getElementById(id);
+const today=()=>new Date().toLocaleDateString("en-CA");
 
 function save(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(state));
- }catch(e){
-  alert("Маълумот захира нашуд. Хотираи браузерро санҷ.");
- }
- render();
+  localStorage.setItem(storageKey,JSON.stringify(state));
 }
 
-function message(txt){
- document.getElementById("message").textContent=txt;
+function refreshStats(){
+  $("xp").textContent=state.xp;
+  $("hearts").textContent=state.hearts;
+  $("streak").textContent=state.streak;
+  $("lessonHeart").textContent="❤️ "+state.hearts;
 }
 
-function createBots(){
- state.bots=MAX_BOTS;
- save();
- message("10 000 аккаунти виртуалӣ омода шуд.");
+function renderPath(){
+  $("lessonPath").innerHTML="";
+  lessons.forEach((lesson,i)=>{
+    const unlocked=i===0||state.done.includes(i-1);
+    const completed=state.done.includes(i);
+    const b=document.createElement("button");
+    b.className="lesson"+(unlocked?"":" locked");
+    b.disabled=!unlocked;
+    const circle=document.createElement("div");
+    circle.className="circle";
+    circle.textContent=completed?"✓":lesson.icon;
+    const info=document.createElement("div");
+    const strong=document.createElement("strong");
+    strong.textContent="Дарси "+(i+1)+": "+lesson.title;
+    const small=document.createElement("small");
+    small.textContent=completed?"Гузашта шуд ✓":
+      unlocked?"Барои оғоз пахш кун":"🔒 Аввал дарси пешинаро гузар";
+    info.append(strong,small);
+    b.append(circle,info);
+    b.onclick=()=>startLesson(i);
+    $("lessonPath").appendChild(b);
+  });
 }
 
-function addVideo(){
- const title=document.getElementById("videoTitle").value.trim();
- const url=document.getElementById("videoUrl").value.trim();
+function showTab(id){
+  ["home","lessonScreen","resultScreen","wordsScreen","profileScreen"]
+  .forEach(x=>$(x).classList.toggle("hidden",x!==id));
+  document.querySelectorAll(".nav").forEach(n=>
+    n.classList.toggle("active",n.dataset.tab===id));
+  if(id==="home")renderPath();
+  if(id==="wordsScreen")renderWords();
+  if(id==="profileScreen")renderProfile();
+  refreshStats();
+  window.scrollTo(0,0);
+}
 
- if(!title){
-  alert("Номи видеоро навис.");
-  return;
- }
+function goHome(){showTab("home")}
 
- if(url){
-  try{
-   const parsed=new URL(url);
-   const host=parsed.hostname.toLowerCase();
-   const allowed=["youtube.com","www.youtube.com","m.youtube.com","youtu.be"];
-   if(parsed.protocol!=="https:" || !allowed.includes(host)){
-    alert("Линки дурусти YouTube гузор.");
+function startLesson(i){
+  if(i>0&&!state.done.includes(i-1))return;
+  if(state.hearts<=0){
+    alert("Дилҳо тамом шуданд. Ба профил рафта онҳоро барқарор кун.");
     return;
-   }
-  }catch(e){
-   alert("Линки дуруст гузор.");
-   return;
   }
- }
-
- state.videos.push({
-  id:crypto.randomUUID(),
-  title,
-  url,
-  likes:0,
-  likedBots:[],
-  created:new Date().toLocaleString()
- });
-
- document.getElementById("videoTitle").value="";
- document.getElementById("videoUrl").value="";
- save();
+  lessonIndex=i;
+  questionIndex=0;
+  selected=-1;
+  checked=false;
+  earned=0;
+  correctCount=0;
+  showTab("lessonScreen");
+  renderQuestion();
 }
 
-function simulateLikes(id,amount){
- if(!state.bots){
-  alert("Аввал ботҳои виртуалиро соз.");
-  return;
- }
-
- const video=state.videos.find(v=>v.id===id);
- if(!video)return;
-
- if(!Array.isArray(video.likedBots)){
-  video.likedBots=[];
- }
-
- const used=new Set(video.likedBots);
- const available=[];
-
- for(let i=1;i<=state.bots;i++){
-  if(!used.has(i))available.push(i);
- }
-
- for(let i=available.length-1;i>0;i--){
-  const j=Math.floor(Math.random()*(i+1));
-  [available[i],available[j]]=[available[j],available[i]];
- }
-
- const selected=available.slice(0,amount);
- video.likedBots.push(...selected);
- video.likes=video.likedBots.length;
- save();
-}
-
-function resetLikes(id){
- const video=state.videos.find(v=>v.id===id);
- if(!video)return;
- video.likes=0;
- video.likedBots=[];
- save();
-}
-
-function removeVideo(id){
- if(!confirm("Ин видеоро тоза мекунӣ?"))return;
- state.videos=state.videos.filter(v=>v.id!==id);
- save();
-}
-
-function clearAll(){
- if(!confirm("Ҳамаи маълумоти озмоиширо тоза мекунӣ?"))return;
- state={bots:0,videos:[]};
- save();
-}
-
-function render(){
- document.getElementById("botCount").textContent=
- state.bots.toLocaleString();
-
- document.getElementById("videoCount").textContent=
- state.videos.length;
-
- document.getElementById("totalLikes").textContent=
- state.videos.reduce((sum,v)=>sum+(v.likes||0),0).toLocaleString();
-
- const list=document.getElementById("videoList");
- list.replaceChildren();
-
- if(!state.videos.length){
-  const p=document.createElement("p");
-  p.className="small";
-  p.textContent="Ҳоло ягон видео илова нашудааст.";
-  list.append(p);
-  return;
- }
-
- for(const video of state.videos){
-  const box=document.createElement("div");
-  box.className="video";
-
-  const h=document.createElement("h3");
-  h.textContent=video.title;
-  box.append(h);
-
-  const info=document.createElement("p");
-  info.textContent="👍 "+(video.likes||0)+" лайки озмоишӣ";
-  box.append(info);
-
-  const progress=document.createElement("div");
-  progress.className="progress";
-
-  const fill=document.createElement("div");
-  fill.className="fill";
-  fill.style.width=Math.min(100,(video.likes||0)/300*100)+"%";
-  progress.append(fill);
-  box.append(progress);
-
-  if(video.url){
-   const a=document.createElement("a");
-   a.href=video.url;
-   a.target="_blank";
-   a.rel="noopener noreferrer";
-   a.textContent="Кушодани видео дар YouTube";
-   box.append(a);
-  }
-
-  const controls=document.createElement("div");
-
-  const actions=[
-   ["+200 лайк",()=>simulateLikes(video.id,200)],
-   ["+300 лайк",()=>simulateLikes(video.id,300)],
-   ["Аз нав",()=>resetLikes(video.id)],
-   ["Нест кардан",()=>removeVideo(video.id)]
-  ];
-
-  actions.forEach(([title,fn],index)=>{
-   const btn=document.createElement("button");
-   btn.textContent=title;
-   if(index>1)btn.className="secondary";
-   btn.onclick=fn;
-   controls.append(btn);
-  });
-
-  box.append(controls);
-  list.append(box);
- }
-}
-
-const commentTemplates={
- tg:{
-  thanks:["Ташаккур барои тамошо! ❤️","Аз дастгирии шумо миннатдорем! 🙏"],
-  question:["Кадом қисми видео ба шумо маъқул шуд? 🔥","Фикратонро дар шарҳҳо нависед! 💬"],
-  next:["Видеои навбатӣ дар бораи чӣ бошад? 🎬","Барои қисми навбатӣ чӣ пешниҳод доред? 🤔"]
- },
- en:{
-  thanks:["Thanks for watching! ❤️","We appreciate your support! 🙏"],
-  question:["What was your favorite moment? 🔥","Share your thoughts below! 💬"],
-  next:["What should we make next? 🎬","Any ideas for our next video? 🤔"]
- },
- de:{
-  thanks:["Danke fürs Zuschauen! ❤️","Vielen Dank für eure Unterstützung! 🙏"],
-  question:["Welcher Teil hat euch gefallen? 😍","Was denkt ihr darüber? 💬"],
-  next:["Was sollen wir als Nächstes zeigen? 🎬","Habt ihr Ideen für das nächste Video? 🤔"]
- },
- ru:{
-  thanks:["Спасибо за просмотр! ❤️","Спасибо за вашу поддержку! 🙏"],
-  question:["Какой момент вам понравился? 🔥","Что вы об этом думаете? 💬"],
-  next:["Что снять в следующий раз? 🎬","Есть идеи для нового видео? 🤔"]
- },
- es:{
-  thanks:["¡Gracias por ver el vídeo! ❤️","¡Gracias por tu apoyo! 🙏"],
-  question:["¿Qué parte te gustó más? 😍","¿Qué opinas? 💬"],
-  next:["¿Qué hacemos después? 🎬","¿Ideas para el próximo vídeo? 🤔"]
- },
- fr:{
-  thanks:["Merci d'avoir regardé ! ❤️","Merci pour votre soutien ! 🙏"],
-  question:["Quel moment avez-vous préféré ? 🔥","Qu'en pensez-vous ? 💬"],
-  next:["Quelle vidéo voulez-vous ensuite ? 🎬","Des idées pour la prochaine vidéo ? 🤔"]
- },
- tr:{
-  thanks:["İzlediğiniz için teşekkürler! ❤️","Desteğiniz için teşekkürler! 🙏"],
-  question:["En çok hangi bölümü beğendiniz? 😍","Siz ne düşünüyorsunuz? 💬"],
-  next:["Sonraki video ne olsun? 🎬","Yeni video için öneriniz var mı? 🤔"]
- }
-};
-
-function generateComments(){
- const lang=document.getElementById("commentLang").value;
- const style=document.getElementById("commentStyle").value;
- const output=document.getElementById("generatedComments");
-
- output.replaceChildren();
- generated=[];
-
- const languages=lang==="all"
-  ?Object.keys(commentTemplates)
-  :[lang];
-
- languages.forEach(code=>{
-  const styles=style==="all"
-   ?Object.keys(commentTemplates[code])
-   :[style];
-
-  styles.forEach(type=>{
-   commentTemplates[code][type].forEach(comment=>{
-    generated.push(code.toUpperCase()+": "+comment);
-
-    const row=document.createElement("div");
-    row.className="comment";
-
-    const p=document.createElement("p");
-    p.textContent=code.toUpperCase()+" — "+comment;
-
+function renderQuestion(){
+  const item=lessons[lessonIndex].questions[questionIndex];
+  selected=-1;
+  checked=false;
+  $("lessonLabel").textContent="A1 • "+lessons[lessonIndex].title;
+  $("question").textContent=item.q;
+  $("progressFill").style.width=
+    (questionIndex/lessons[lessonIndex].questions.length*100)+"%";
+  $("answers").innerHTML="";
+  item.options.forEach((answer,i)=>{
     const btn=document.createElement("button");
-    btn.className="secondary";
-    btn.textContent="📋 Нусха";
-    btn.onclick=()=>copyText(comment,btn);
-
-    row.append(p,btn);
-    output.append(row);
-   });
+    btn.className="answer";
+    btn.textContent=answer;
+    btn.onclick=()=>selectAnswer(i);
+    $("answers").appendChild(btn);
   });
- });
+  $("listenBtn").classList.toggle("hidden",!item.speak);
+  $("feedback").classList.add("hidden");
+  $("checkBtn").textContent="САНҶИДАН";
+  $("checkBtn").disabled=true;
+  refreshStats();
 }
 
-async function copyText(text,button){
- try{
-  await navigator.clipboard.writeText(text);
-  if(button)button.textContent="Нусха шуд ✓";
- }catch(e){
-  alert("Нусхабардорӣ нашуд.");
- }
+function selectAnswer(i){
+  if(checked)return;
+  selected=i;
+  document.querySelectorAll(".answer").forEach((btn,index)=>{
+    btn.classList.toggle("selected",index===i);
+  });
+  $("checkBtn").disabled=false;
 }
 
-function copyAllComments(){
- if(!generated.length){
-  alert("Аввал шарҳҳоро омода кун.");
-  return;
- }
- copyText(generated.join("\n"),null);
+function checkAnswer(){
+  if(!checked){
+    if(selected<0)return;
+    const item=lessons[lessonIndex].questions[questionIndex];
+    const good=selected===item.correct;
+    checked=true;
+    document.querySelectorAll(".answer").forEach((btn,index)=>{
+      btn.disabled=true;
+      btn.classList.remove("selected");
+      if(index===item.correct)btn.classList.add("correct");
+      else if(index===selected)btn.classList.add("wrong");
+    });
+    if(good){
+      earned+=10;
+      correctCount++;
+    }else{
+      state.hearts=Math.max(0,state.hearts-1);
+    }
+    $("feedback").textContent=(good?"🎉 Офарин! ":"❌ Хато. ")+item.ex;
+    $("feedback").classList.remove("hidden");
+    $("checkBtn").textContent="ИДОМА";
+    refreshStats();
+    save();
+    return;
+  }
+  questionIndex++;
+  if(questionIndex>=lessons[lessonIndex].questions.length){
+    finishLesson();
+  }else if(state.hearts<=0){
+    alert("Дилҳо тамом шуданд. Дарсро баъдтар идома деҳ.");
+    goHome();
+  }else{
+    renderQuestion();
+  }
 }
 
-render();
+function updateStreak(){
+  const d=today();
+  if(state.lastDay===d)return;
+  if(state.lastDay){
+    const prev=new Date(state.lastDay+"T12:00:00");
+    const now=new Date(d+"T12:00:00");
+    const diff=Math.round((now-prev)/86400000);
+    state.streak=diff===1?state.streak+1:1;
+  }else{
+    state.streak=1;
+  }
+  state.lastDay=d;
+}
+
+function finishLesson(){
+  state.xp+=earned;
+  updateStreak();
+  if(!state.done.includes(lessonIndex))state.done.push(lessonIndex);
+  save();
+  refreshStats();
+  showTab("resultScreen");
+  $("resultText").textContent=
+    "Ҷавобҳои дуруст: "+correctCount+"/"+
+    lessons[lessonIndex].questions.length+
+    " • XP гирифташуда: +"+earned;
+}
+
+function speak(text){
+  if(!("speechSynthesis" in window)){
+    alert("Ин браузер талаффузи овозиро дастгирӣ намекунад.");
+    return;
+  }
+  speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang="de-DE";
+  utterance.rate=.85;
+  speechSynthesis.speak(utterance);
+}
+
+function listenQuestion(){
+  const item=lessons[lessonIndex].questions[questionIndex];
+  speak(item.speak);
+}
+
+function renderWords(){
+  $("wordList").innerHTML="";
+  vocabulary.forEach(([de,tg])=>{
+    const row=document.createElement("div");
+    row.className="word";
+    const info=document.createElement("div");
+    const strong=document.createElement("strong");
+    strong.textContent=de;
+    const small=document.createElement("small");
+    small.textContent=tg;
+    info.append(strong,small);
+    const btn=document.createElement("button");
+    btn.className="speaker";
+    btn.textContent="🔊";
+    btn.onclick=()=>speak(de);
+    row.append(info,btn);
+    $("wordList").appendChild(row);
+  });
+}
+
+function renderProfile(){
+  $("profileXP").textContent=state.xp;
+  $("profileStreak").textContent=state.streak+" рӯз";
+  $("profileDone").textContent=state.done.length+"/"+lessons.length;
+  $("profileHearts").textContent=state.hearts+"/5";
+}
+
+function restoreHearts(){
+  state.hearts=5;
+  save();
+  refreshStats();
+  renderProfile();
+  alert("❤️ Дилҳо барқарор шуданд!");
+}
+
+refreshStats();
+renderPath();
 </script>
 </body>
 </html>
