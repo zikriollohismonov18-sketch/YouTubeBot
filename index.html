@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube Bot V1 — Demo</title>
+<style>
+body{font-family:Arial;background:#101318;color:white;padding:20px}
+main{max-width:650px;margin:auto}
+section{background:#202630;padding:20px;border-radius:14px;margin:15px 0}
+button,input{padding:12px;border-radius:8px;border:0;margin:5px}
+button{background:#ff3333;color:white;cursor:pointer}
+input{background:#303846;color:white;width:90%}
+strong{color:#5dff9a}
+</style>
+</head>
+<body>
+<main>
+<h2>🤖 YouTube Bot V1</h2>
+<p>Муҳити озмоишӣ — ба YouTube пайваст нест</p>
+<section>
+<h3>Аккаунтҳои озмоишӣ</h3>
+<h1 id="users">0</h1>
+<button onclick="createBots()">Сохтани 10 000 бот</button>
+</section>
+<section>
+<h3>Видеои озмоишӣ</h3>
+<input id="video" placeholder="Номи видео">
+<p>Лайкҳо: <strong id="likes">0</strong></p>
+<button onclick="addLikes(200)">200 лайк</button>
+<button onclick="addLikes(300)">300 лайк</button>
+<button onclick="reset()">Тоза кардан</button>
+</section>
+<section id="status">Ҳоло ботҳо сохта нашудаанд.</section>
+</main>
+<script>
+let bots=[];
+let likes=0;
+function createBots(){
+ bots=Array.from({length:10000},(_,i)=>({
+  id:i+1,
+  name:"TestBot_"+(i+1)
+ }));
+ document.getElementById("users").textContent=bots.length;
+ document.getElementById("status").textContent=
+ "10 000 аккаунти виртуалӣ омода шуд.";
+}
+function addLikes(count){
+ if(!bots.length){
+  alert("Аввал ботҳоро соз!");
+  return;
+ }
+ likes=Math.min(likes+count,bots.length);
+ document.getElementById("likes").textContent=likes;
+ document.getElementById("status").textContent=
+ "Лайкҳои моделсозишуда: "+likes;
+}
+function reset(){
+ likes=0;
+ document.getElementById("likes").textContent=0;
+}
+</script>
+</body>
+</html>
