@@ -4,39 +4,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YouTubeBot V2</title>
+<title>YouTubeBot V3</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#0d1117;color:#f4f5f7;font-family:Arial,sans-serif}
-header{padding:22px 16px;background:#171d27;text-align:center;border-bottom:2px solid #ff3333}
-header h1{margin:0;font-size:25px}
-header p{color:#aeb7c4}
-main{max-width:900px;margin:auto;padding:16px}
+header{padding:24px 15px;background:#171d27;text-align:center;border-bottom:3px solid #ff3434}
+h1{margin:0;font-size:27px}
+h2{font-size:20px}
+header p,.small{color:#aeb7c4;font-size:13px}
+main{max-width:950px;margin:auto;padding:15px}
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .card{background:#1b2430;padding:18px;border-radius:14px;margin-bottom:15px}
-.number{font-size:30px;font-weight:bold;color:#58f5a2}
+.number{font-size:30px;font-weight:bold;color:#58f5a2;margin-top:8px}
 label{display:block;margin:12px 0 6px}
-input{width:100%;padding:13px;border:1px solid #465165;border-radius:8px;background:#111821;color:white}
+input,select,textarea{width:100%;padding:13px;border:1px solid #465165;border-radius:8px;background:#111821;color:white;font:inherit}
 button{padding:12px 15px;background:#ed3434;color:white;border:0;border-radius:9px;cursor:pointer;margin:5px 4px 5px 0}
 button.secondary{background:#344357}
 button:disabled{opacity:.5}
 .video{border-top:1px solid #354252;padding:15px 0}
-.video h3{margin:0 0 10px;overflow-wrap:anywhere}
-.small{font-size:13px;color:#aeb7c4}
+.video h3{overflow-wrap:anywhere}
 .progress{background:#303b49;height:9px;border-radius:10px;overflow:hidden;margin:10px 0}
 .fill{height:100%;background:#58f5a2}
 .notice{color:#ffcf75}
+.comment{padding:12px;border:1px solid #344357;border-radius:9px;margin:10px 0}
+.comment p{overflow-wrap:anywhere}
+a{color:#80bfff}
 </style>
 </head>
 <body>
 <header>
-<h1>🤖 YouTubeBot V2</h1>
-<p>Панели моделсозии ботҳо</p>
+<h1>🤖 YouTubeBot V3</h1>
+<p>Панели моделсозӣ ва генератори шарҳҳо</p>
 </header>
 <main>
+
 <div class="card">
-<p class="notice">Ин версия танҳо озмоишӣ аст. Ба YouTube лайк ё обуна намефиристад.</p>
+<p class="notice">
+Ин муҳити озмоишӣ аст. Лайкҳо, ботҳо ва обуначиҳои виртуалӣ ба YouTube фиристода намешаванд.
+</p>
 </div>
+
 <div class="stats">
 <div class="card">
 <div class="small">Аккаунтҳои виртуалӣ</div>
@@ -55,29 +62,67 @@ button:disabled{opacity:.5}
 <div class="number">10 000</div>
 </div>
 </div>
+
 <div class="card">
-<h2>Идоракунии ботҳо</h2>
+<h2>🤖 Идоракунии ботҳо</h2>
 <button onclick="createBots()">Сохтани 10 000 бот</button>
 <button class="secondary" onclick="clearAll()">Тоза кардани ҳама</button>
 <p id="message" class="small"></p>
 </div>
+
 <div class="card">
-<h2>Иловаи видео</h2>
+<h2>🎬 Иловаи видео</h2>
 <label>Номи видео</label>
 <input id="videoTitle" placeholder="Масалан: YouTube Shorts #1" maxlength="150">
 <label>Линки видео (ихтиёрӣ)</label>
 <input id="videoUrl" placeholder="https://www.youtube.com/watch?v=...">
 <button onclick="addVideo()">Илова кардан</button>
 </div>
+
 <div class="card">
-<h2>Видеоҳои озмоишӣ</h2>
+<h2>📺 Видеоҳои озмоишӣ</h2>
 <div id="videoList"></div>
 </div>
+
+<div class="card">
+<h2>🌍 Генератори шарҳҳо V3</h2>
+<p class="small">
+Шарҳҳои намунавӣ барои истифода аз ҳисоби худат.
+Ба YouTube худкор фиристода намешаванд.
+</p>
+
+<label>Забони шарҳ</label>
+<select id="commentLang">
+<option value="all">Ҳамаи забонҳо</option>
+<option value="tg">🇹🇯 Тоҷикӣ</option>
+<option value="en">🇬🇧 English</option>
+<option value="de">🇩🇪 Deutsch</option>
+<option value="ru">🇷🇺 Русский</option>
+<option value="es">🇪🇸 Español</option>
+<option value="fr">🇫🇷 Français</option>
+<option value="tr">🇹🇷 Türkçe</option>
+</select>
+
+<label>Намуди шарҳ</label>
+<select id="commentStyle">
+<option value="all">Ҳамаи намудҳо</option>
+<option value="thanks">Ташаккур</option>
+<option value="question">Савол ба тамошобинон</option>
+<option value="next">Пешниҳоди видеои нав</option>
+</select>
+
+<button onclick="generateComments()">✨ Омода кардани шарҳҳо</button>
+<button class="secondary" onclick="copyAllComments()">📋 Нусхаи ҳама</button>
+<div id="generatedComments"></div>
+</div>
+
 </main>
+
 <script>
 const KEY="youtube_bot_v2";
 const MAX_BOTS=10000;
 let state=load();
+let generated=[];
 
 function load(){
  try{
@@ -93,8 +138,16 @@ function load(){
 }
 
 function save(){
- localStorage.setItem(KEY,JSON.stringify(state));
+ try{
+  localStorage.setItem(KEY,JSON.stringify(state));
+ }catch(e){
+  alert("Маълумот захира нашуд. Хотираи браузерро санҷ.");
+ }
  render();
+}
+
+function message(txt){
+ document.getElementById("message").textContent=txt;
 }
 
 function createBots(){
@@ -103,22 +156,21 @@ function createBots(){
  message("10 000 аккаунти виртуалӣ омода шуд.");
 }
 
-function message(txt){
- document.getElementById("message").textContent=txt;
-}
-
 function addVideo(){
  const title=document.getElementById("videoTitle").value.trim();
  const url=document.getElementById("videoUrl").value.trim();
+
  if(!title){
   alert("Номи видеоро навис.");
   return;
  }
+
  if(url){
   try{
    const parsed=new URL(url);
    const host=parsed.hostname.toLowerCase();
-   if(!["youtube.com","www.youtube.com","m.youtube.com","youtu.be"].includes(host) || parsed.protocol!=="https:"){
+   const allowed=["youtube.com","www.youtube.com","m.youtube.com","youtu.be"];
+   if(parsed.protocol!=="https:" || !allowed.includes(host)){
     alert("Линки дурусти YouTube гузор.");
     return;
    }
@@ -127,36 +179,46 @@ function addVideo(){
    return;
   }
  }
+
  state.videos.push({
   id:crypto.randomUUID(),
-  title:title,
-  url:url,
+  title,
+  url,
   likes:0,
   likedBots:[],
   created:new Date().toLocaleString()
  });
+
  document.getElementById("videoTitle").value="";
  document.getElementById("videoUrl").value="";
  save();
 }
 
 function simulateLikes(id,amount){
- if(state.bots===0){
-  alert("Аввал 10 000 ботро соз.");
+ if(!state.bots){
+  alert("Аввал ботҳои виртуалиро соз.");
   return;
  }
+
  const video=state.videos.find(v=>v.id===id);
  if(!video)return;
- if(!Array.isArray(video.likedBots))video.likedBots=[];
+
+ if(!Array.isArray(video.likedBots)){
+  video.likedBots=[];
+ }
+
  const used=new Set(video.likedBots);
  const available=[];
+
  for(let i=1;i<=state.bots;i++){
   if(!used.has(i))available.push(i);
  }
+
  for(let i=available.length-1;i>0;i--){
   const j=Math.floor(Math.random()*(i+1));
   [available[i],available[j]]=[available[j],available[i]];
  }
+
  const selected=available.slice(0,amount);
  video.likedBots.push(...selected);
  video.likes=video.likedBots.length;
@@ -184,8 +246,12 @@ function clearAll(){
 }
 
 function render(){
- document.getElementById("botCount").textContent=state.bots.toLocaleString();
- document.getElementById("videoCount").textContent=state.videos.length;
+ document.getElementById("botCount").textContent=
+ state.bots.toLocaleString();
+
+ document.getElementById("videoCount").textContent=
+ state.videos.length;
+
  document.getElementById("totalLikes").textContent=
  state.videos.reduce((sum,v)=>sum+(v.likes||0),0).toLocaleString();
 
@@ -203,6 +269,7 @@ function render(){
  for(const video of state.videos){
   const box=document.createElement("div");
   box.className="video";
+
   const h=document.createElement("h3");
   h.textContent=video.title;
   box.append(h);
@@ -213,6 +280,7 @@ function render(){
 
   const progress=document.createElement("div");
   progress.className="progress";
+
   const fill=document.createElement("div");
   fill.className="fill";
   fill.style.width=Math.min(100,(video.likes||0)/300*100)+"%";
@@ -225,17 +293,18 @@ function render(){
    a.target="_blank";
    a.rel="noopener noreferrer";
    a.textContent="Кушодани видео дар YouTube";
-   a.style.color="#80bfff";
    box.append(a);
   }
 
   const controls=document.createElement("div");
+
   const actions=[
    ["+200 лайк",()=>simulateLikes(video.id,200)],
    ["+300 лайк",()=>simulateLikes(video.id,300)],
    ["Аз нав",()=>resetLikes(video.id)],
    ["Нест кардан",()=>removeVideo(video.id)]
   ];
+
   actions.forEach(([title,fn],index)=>{
    const btn=document.createElement("button");
    btn.textContent=title;
@@ -243,10 +312,106 @@ function render(){
    btn.onclick=fn;
    controls.append(btn);
   });
+
   box.append(controls);
   list.append(box);
  }
 }
+
+const commentTemplates={
+ tg:{
+  thanks:["Ташаккур барои тамошо! ❤️","Аз дастгирии шумо миннатдорем! 🙏"],
+  question:["Кадом қисми видео ба шумо маъқул шуд? 🔥","Фикратонро дар шарҳҳо нависед! 💬"],
+  next:["Видеои навбатӣ дар бораи чӣ бошад? 🎬","Барои қисми навбатӣ чӣ пешниҳод доред? 🤔"]
+ },
+ en:{
+  thanks:["Thanks for watching! ❤️","We appreciate your support! 🙏"],
+  question:["What was your favorite moment? 🔥","Share your thoughts below! 💬"],
+  next:["What should we make next? 🎬","Any ideas for our next video? 🤔"]
+ },
+ de:{
+  thanks:["Danke fürs Zuschauen! ❤️","Vielen Dank für eure Unterstützung! 🙏"],
+  question:["Welcher Teil hat euch gefallen? 😍","Was denkt ihr darüber? 💬"],
+  next:["Was sollen wir als Nächstes zeigen? 🎬","Habt ihr Ideen für das nächste Video? 🤔"]
+ },
+ ru:{
+  thanks:["Спасибо за просмотр! ❤️","Спасибо за вашу поддержку! 🙏"],
+  question:["Какой момент вам понравился? 🔥","Что вы об этом думаете? 💬"],
+  next:["Что снять в следующий раз? 🎬","Есть идеи для нового видео? 🤔"]
+ },
+ es:{
+  thanks:["¡Gracias por ver el vídeo! ❤️","¡Gracias por tu apoyo! 🙏"],
+  question:["¿Qué parte te gustó más? 😍","¿Qué opinas? 💬"],
+  next:["¿Qué hacemos después? 🎬","¿Ideas para el próximo vídeo? 🤔"]
+ },
+ fr:{
+  thanks:["Merci d'avoir regardé ! ❤️","Merci pour votre soutien ! 🙏"],
+  question:["Quel moment avez-vous préféré ? 🔥","Qu'en pensez-vous ? 💬"],
+  next:["Quelle vidéo voulez-vous ensuite ? 🎬","Des idées pour la prochaine vidéo ? 🤔"]
+ },
+ tr:{
+  thanks:["İzlediğiniz için teşekkürler! ❤️","Desteğiniz için teşekkürler! 🙏"],
+  question:["En çok hangi bölümü beğendiniz? 😍","Siz ne düşünüyorsunuz? 💬"],
+  next:["Sonraki video ne olsun? 🎬","Yeni video için öneriniz var mı? 🤔"]
+ }
+};
+
+function generateComments(){
+ const lang=document.getElementById("commentLang").value;
+ const style=document.getElementById("commentStyle").value;
+ const output=document.getElementById("generatedComments");
+
+ output.replaceChildren();
+ generated=[];
+
+ const languages=lang==="all"
+  ?Object.keys(commentTemplates)
+  :[lang];
+
+ languages.forEach(code=>{
+  const styles=style==="all"
+   ?Object.keys(commentTemplates[code])
+   :[style];
+
+  styles.forEach(type=>{
+   commentTemplates[code][type].forEach(comment=>{
+    generated.push(code.toUpperCase()+": "+comment);
+
+    const row=document.createElement("div");
+    row.className="comment";
+
+    const p=document.createElement("p");
+    p.textContent=code.toUpperCase()+" — "+comment;
+
+    const btn=document.createElement("button");
+    btn.className="secondary";
+    btn.textContent="📋 Нусха";
+    btn.onclick=()=>copyText(comment,btn);
+
+    row.append(p,btn);
+    output.append(row);
+   });
+  });
+ });
+}
+
+async function copyText(text,button){
+ try{
+  await navigator.clipboard.writeText(text);
+  if(button)button.textContent="Нусха шуд ✓";
+ }catch(e){
+  alert("Нусхабардорӣ нашуд.");
+ }
+}
+
+function copyAllComments(){
+ if(!generated.length){
+  alert("Аввал шарҳҳоро омода кун.");
+  return;
+ }
+ copyText(generated.join("\n"),null);
+}
+
 render();
 </script>
 </body>
