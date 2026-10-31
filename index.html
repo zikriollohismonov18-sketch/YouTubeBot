@@ -3,533 +3,984 @@
 <html lang="tg">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#58cc02">
-<title>DeutschTJ — Олмониро омӯз!</title>
+<title>DeutschTJ — Олмониро бо бозӣ омӯз</title>
 <style>
 :root{
-  --green:#58cc02;--darkgreen:#46a302;
-  --blue:#1cb0f6;--yellow:#ffc800;
-  --red:#ff4b4b;--purple:#ce82ff;
-  --bg:#f7f9fc;--text:#293445;
-  --muted:#82909d;--line:#e4e9ef
+--green:#58cc02;--green2:#46a302;
+--blue:#1cb0f6;--red:#ff4b4b;
+--gold:#ffc800;--purple:#a560ee;
+--bg:#f5f8fc;--ink:#253247;
+--muted:#8190a2;--line:#e3eaf1
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);
+body{margin:0;background:var(--bg);color:var(--ink);
 font-family:Arial,sans-serif}
-button{font:inherit;cursor:pointer}
-.app{max-width:520px;min-height:100vh;margin:auto;
-background:white;padding-bottom:85px}
-header{position:sticky;top:0;z-index:5;background:white;
-border-bottom:1px solid var(--line);padding:15px}
-.brand{font-size:25px;font-weight:900;color:var(--green)}
-.stats{display:flex;justify-content:space-between;
-gap:8px;margin-top:12px;font-weight:bold}
-.stat{background:#f6f8fa;border-radius:14px;
-padding:10px;text-align:center;flex:1;font-size:14px}
-main{padding:18px}
-.hero{background:linear-gradient(135deg,#58cc02,#83df31);
-color:white;border-radius:22px;padding:22px;margin-bottom:20px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.app{max-width:620px;min-height:100vh;margin:auto;
+background:white;padding-bottom:90px}
+header{position:sticky;top:0;z-index:10;
+background:white;padding:13px 17px;
+border-bottom:1px solid var(--line)}
+.brand{font-size:24px;font-weight:900;color:var(--green)}
+.stats{display:flex;gap:7px;margin-top:10px}
+.stat{flex:1;background:#f5f8fa;border-radius:12px;
+padding:9px 4px;text-align:center;font-weight:bold;
+font-size:13px}
+main{padding:17px}
+.hidden{display:none!important}
+.hero{background:linear-gradient(130deg,#58cc02,#83df31);
+border-radius:22px;padding:22px;color:white}
 .hero h2{margin:0 0 8px}
-.hero p{margin:0;line-height:1.5}
-h3{margin:18px 0 12px}
-.path{display:flex;flex-direction:column;align-items:center;gap:18px}
-.lesson{width:85%;border:2px solid var(--line);
-border-radius:20px;padding:14px;display:flex;
-align-items:center;gap:14px;background:white;text-align:left}
-.lesson .circle{height:58px;width:58px;min-width:58px;
+.hero p{margin:0;line-height:1.6}
+.card{border:2px solid var(--line);
+border-radius:18px;padding:16px;margin:13px 0;
+background:white}
+.card h3{margin-top:0}
+.row{display:flex;align-items:center;gap:10px}
+.between{justify-content:space-between}
+.small{font-size:13px;color:var(--muted)}
+.btn{border:0;border-bottom:4px solid var(--green2);
+background:var(--green);color:white;
+padding:13px 18px;border-radius:14px;font-weight:900}
+.btn.full{width:100%}
+.btn.alt{background:white;color:var(--ink);
+border:2px solid var(--line);border-bottom-width:4px}
+.btn.blue{background:var(--blue);border-color:#1189c3}
+.btn.red{background:var(--red);border-color:#c83232}
+.btn:disabled{opacity:.5}
+.levelTitle{padding:13px 16px;border-radius:15px;
+color:white;font-weight:bold;margin:20px 0 15px}
+.path{display:flex;flex-direction:column;align-items:center;gap:15px}
+.node{width:85%;display:flex;gap:14px;align-items:center;
+border:2px solid var(--line);background:white;
+border-radius:18px;padding:12px;text-align:left}
+.nodeIcon{width:55px;height:55px;min-width:55px;
 display:grid;place-items:center;border-radius:50%;
-background:var(--green);color:white;font-size:27px;
-box-shadow:0 5px 0 var(--darkgreen)}
-.lesson.locked{opacity:.55}
-.lesson.locked .circle{background:#aaa;box-shadow:0 5px 0 #888}
-.lesson strong{display:block;margin-bottom:5px}
-.lesson small{color:var(--muted)}
-.panel{background:#fff;border:2px solid var(--line);
-border-radius:20px;padding:18px}
-.progress{height:13px;background:#e9eef2;border-radius:20px;
-overflow:hidden;flex:1}
+background:var(--green);color:white;
+font-size:26px;box-shadow:0 5px 0 var(--green2)}
+.node.locked{opacity:.5}
+.node.locked .nodeIcon{background:#a5adb6;box-shadow:0 5px 0 #7f8790}
+.node strong{display:block;margin-bottom:6px}
+.node small{color:var(--muted)}
+.progress{height:13px;background:#e8edf2;
+border-radius:20px;overflow:hidden;flex:1}
 .fill{height:100%;background:var(--green);
-width:0;transition:.3s}
-.topline{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.close{border:0;background:#f1f3f5;border-radius:12px;
-padding:9px 13px}
-.question{font-size:23px;font-weight:800;line-height:1.4;
-margin:20px 0}
-.answers{display:grid;gap:12px}
-.answer{background:white;border:2px solid var(--line);
-border-bottom-width:4px;border-radius:15px;
-padding:16px;text-align:left;font-weight:bold}
-.answer.selected{border-color:var(--blue);background:#eaf8ff}
+width:0;transition:width .25s}
+.question{font-size:22px;font-weight:800;
+line-height:1.5;margin:20px 0}
+.answer{display:block;width:100%;padding:15px;
+background:white;border:2px solid var(--line);
+border-bottom-width:4px;border-radius:14px;
+margin:10px 0;text-align:left;font-weight:bold}
+.answer.selected{border-color:var(--blue);background:#e8f7ff}
 .answer.correct{border-color:var(--green);background:#edffdf}
 .answer.wrong{border-color:var(--red);background:#fff0f0}
-.primary{background:var(--green);border:0;border-bottom:5px solid var(--darkgreen);
-border-radius:15px;color:white;padding:15px;
-font-weight:900;width:100%;margin-top:18px}
-.primary:disabled{background:#cbd1d6;border-color:#aeb5bb}
-.secondary{border:2px solid var(--line);background:white;
-border-radius:12px;padding:12px;font-weight:bold}
-.feedback{margin-top:16px;padding:14px;border-radius:13px;
-background:#f3f8ed;line-height:1.5}
-.speaker{border:0;background:#e5f7ff;color:#0876b6;
-padding:12px 15px;border-radius:14px}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);
-width:100%;max-width:520px;background:white;border-top:1px solid var(--line);
-display:flex;justify-content:space-around;padding:10px}
-.nav{border:0;background:none;color:#7b8795;font-size:12px;
-font-weight:bold;padding:6px}
+.feedback{padding:14px;border-radius:14px;
+background:#eff9e9;margin:14px 0;line-height:1.6}
+.textInput{width:100%;padding:15px;border:2px solid var(--line);
+border-radius:14px;font-size:17px;outline:none}
+.textInput:focus{border-color:var(--blue)}
+.tokens{display:flex;gap:8px;flex-wrap:wrap;
+min-height:55px;padding:10px;border:2px dashed var(--line);
+border-radius:14px}
+.token{border:2px solid var(--line);border-bottom-width:4px;
+border-radius:11px;background:white;padding:10px 13px}
+.token.used{opacity:.3}
+.speaker{border:0;border-radius:12px;
+background:#e5f7ff;color:#0876b6;
+padding:10px 13px;font-weight:bold}
+.bottom{position:fixed;bottom:0;left:50%;
+transform:translateX(-50%);max-width:620px;width:100%;
+background:white;border-top:1px solid var(--line);
+display:flex;justify-content:space-around;padding:8px}
+.nav{border:0;background:none;color:#85909b;
+font-size:11px;font-weight:bold;padding:6px}
+.nav span{display:block;font-size:22px;margin-bottom:4px}
 .nav.active{color:var(--green)}
-.nav span{display:block;font-size:23px;margin-bottom:3px}
-.word{display:flex;justify-content:space-between;
-align-items:center;border-bottom:1px solid var(--line);padding:13px 0}
-.word small{display:block;color:var(--muted);margin-top:5px}
-.hidden{display:none!important}
-.badge{display:inline-block;background:#e8f9db;color:#398b00;
-padding:6px 11px;border-radius:12px;font-size:12px;font-weight:bold}
+.word{padding:13px 0;border-bottom:1px solid var(--line)}
+.word strong{display:block}
+.word small{color:var(--muted)}
+.badge{display:inline-block;padding:6px 11px;
+background:#e9f9df;color:#3e9400;
+border-radius:12px;font-size:12px;font-weight:bold}
 .center{text-align:center}
-.big{font-size:60px}
+.big{font-size:65px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.achievement{padding:15px;border:2px solid var(--line);
+border-radius:16px;text-align:center}
+.achievement .emoji{font-size:32px}
+.achievement.locked{filter:grayscale(1);opacity:.5}
+.search{width:100%;border:2px solid var(--line);
+border-radius:14px;padding:13px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:10px 0}
+.tab{white-space:nowrap;border:2px solid var(--line);
+border-radius:12px;background:white;padding:10px 14px}
+.tab.active{background:var(--green);color:white;border-color:var(--green)}
+.grammar{line-height:1.7}
+.grammar b{color:#278900}
+.daily{background:#fff9dc;border:2px solid #ffe18a;
+border-radius:16px;padding:15px;margin:15px 0}
 </style>
 </head>
 <body>
 <div class="app">
+
 <header>
-  <div class="brand">🇹🇯 DeutschTJ 🇩🇪</div>
-  <div class="stats">
-    <div class="stat">🔥 <span id="streak">0</span> рӯз</div>
-    <div class="stat">⭐ <span id="xp">0</span> XP</div>
-    <div class="stat">❤️ <span id="hearts">5</span></div>
-  </div>
+<div class="brand">🇹🇯 DeutschTJ 🇩🇪</div>
+<div class="stats">
+<div class="stat">🔥 <span id="streak">0</span></div>
+<div class="stat">⭐ <span id="xp">0</span></div>
+<div class="stat">🪙 <span id="coins">0</span></div>
+<div class="stat">❤️ <span id="hearts">5</span></div>
+</div>
 </header>
 
 <main id="home">
-  <div class="hero">
-    <h2>Олмониро бо бозӣ омӯз!</h2>
-    <p>Ҳар рӯз машқ кун, XP гир ва ба сатҳи нав гузар.</p>
-  </div>
-  <h3>📚 Сатҳи A1 — Дарсҳои аввал</h3>
-  <div class="path" id="lessonPath"></div>
+<div class="hero">
+<h2>Олмониро бо бозӣ омӯз!</h2>
+<p>Аз A1 оғоз кун. Ҳар рӯз машқ кун, хол гир ва ба сатҳи нав гузар.</p>
+</div>
+<div class="daily">
+<b>🎯 Ҳадафи ҳаррӯза: 50 XP</b>
+<div class="progress" style="margin-top:12px">
+<div class="fill" id="dailyFill"></div>
+</div>
+<p class="small" id="dailyText"></p>
+</div>
+<div id="lessonPath"></div>
 </main>
 
 <main id="lessonScreen" class="hidden">
-  <div class="topline">
-    <button class="close" onclick="goHome()">✕</button>
-    <div class="progress"><div class="fill" id="progressFill"></div></div>
-    <span id="lessonHeart">❤️ 5</span>
-  </div>
-  <span class="badge" id="lessonLabel">Дарс</span>
-  <div class="question" id="question"></div>
-  <button class="speaker hidden" id="listenBtn" onclick="listenQuestion()">🔊 Шунидан</button>
-  <div class="answers" id="answers"></div>
-  <div id="feedback" class="feedback hidden"></div>
-  <button class="primary" id="checkBtn" onclick="checkAnswer()" disabled>САНҶИДАН</button>
+<div class="row">
+<button class="btn alt" onclick="goHome()">✕</button>
+<div class="progress"><div class="fill" id="lessonFill"></div></div>
+<b id="lessonHearts">❤️ 5</b>
+</div>
+<p class="badge" id="lessonLabel"></p>
+<div class="question" id="question"></div>
+<div id="questionTools"></div>
+<div id="answerArea"></div>
+<div class="feedback hidden" id="feedback"></div>
+<button class="btn full" id="checkBtn"
+onclick="checkAnswer()" disabled>САНҶИДАН</button>
 </main>
 
 <main id="resultScreen" class="hidden center">
-  <div class="big">🏆</div>
-  <h2>Дарс анҷом ёфт!</h2>
-  <p id="resultText"></p>
-  <button class="primary" onclick="goHome()">ИДОМА</button>
+<div class="big">🏆</div>
+<h2>Дарс анҷом ёфт!</h2>
+<p id="resultText"></p>
+<button class="btn full" onclick="goHome()">ИДОМА</button>
 </main>
 
 <main id="wordsScreen" class="hidden">
-  <h2>📖 Луғати ман</h2>
-  <p>Калимаҳоро пахш карда талаффузашонро шунав.</p>
-  <div id="wordList"></div>
+<h2>📖 Луғати олмонӣ</h2>
+<input class="search" id="wordSearch"
+placeholder="Калима ҷустуҷӯ кун..."
+oninput="renderWords()">
+<div id="wordList"></div>
+</main>
+
+<main id="grammarScreen" class="hidden">
+<h2>📚 Грамматика</h2>
+<div id="grammarList"></div>
 </main>
 
 <main id="profileScreen" class="hidden">
-  <h2>👤 Пешрафти ман</h2>
-  <div class="panel">
-    <p>⭐ Холҳо: <b id="profileXP"></b></p>
-    <p>🔥 Рӯзҳои пайдарпай: <b id="profileStreak"></b></p>
-    <p>🏆 Дарсҳои гузашта: <b id="profileDone"></b></p>
-    <p>❤️ Дилҳо: <b id="profileHearts"></b></p>
-    <button class="secondary" onclick="restoreHearts()">❤️ Барқарор кардани дилҳо</button>
-  </div>
-  <p style="color:#82909d;font-size:13px">
-    Пешрафт дар ҳамин браузер нигоҳ дошта мешавад.
-  </p>
+<h2>👤 Пешрафти ман</h2>
+<div class="card">
+<p>⭐ XP: <b id="profileXP"></b></p>
+<p>🪙 Тангаҳо: <b id="profileCoins"></b></p>
+<p>🔥 Streak: <b id="profileStreak"></b></p>
+<p>🏆 Дарсҳои гузашта: <b id="profileDone"></b></p>
+<p>❤️ Дилҳо: <b id="profileHearts"></b></p>
+<button class="btn alt" onclick="buyHearts()">
+❤️ 5 дил — 50 танга
+</button>
+</div>
+<h3>🏅 Мукофотҳо</h3>
+<div class="grid" id="achievements"></div>
+<p class="small">Маълумот дар ҳамин браузер нигоҳ дошта мешавад.</p>
 </main>
 
 <nav class="bottom">
-  <button class="nav active" data-tab="home" onclick="showTab('home')">
-    <span>🏠</span>Дарсҳо
-  </button>
-  <button class="nav" data-tab="wordsScreen" onclick="showTab('wordsScreen')">
-    <span>📖</span>Луғат
-  </button>
-  <button class="nav" data-tab="profileScreen" onclick="showTab('profileScreen')">
-    <span>👤</span>Профил
-  </button>
+<button class="nav active" data-tab="home" onclick="showTab('home')">
+<span>🏠</span>Дарсҳо</button>
+<button class="nav" data-tab="wordsScreen" onclick="showTab('wordsScreen')">
+<span>📖</span>Луғат</button>
+<button class="nav" data-tab="grammarScreen" onclick="showTab('grammarScreen')">
+<span>📚</span>Қоидаҳо</button>
+<button class="nav" data-tab="profileScreen" onclick="showTab('profileScreen')">
+<span>👤</span>Профил</button>
 </nav>
 </div>
 
 <script>
 "use strict";
 
-const lessons=[
-  {
-    title:"Салом ва шиносоӣ",icon:"👋",
-    questions:[
-      {q:"«Салом» ба олмонӣ чӣ мешавад?",
-       options:["Danke","Hallo","Bitte"],correct:1,
-       speak:"Hallo",ex:"Hallo — Салом"},
-      {q:"«Субҳ ба хайр» чӣ мешавад?",
-       options:["Guten Morgen","Gute Nacht","Auf Wiedersehen"],
-       correct:0,speak:"Guten Morgen",ex:"Guten Morgen — Субҳ ба хайр"},
-      {q:"«Ташаккур» чӣ мешавад?",
-       options:["Bitte","Danke","Ja"],correct:1,
-       speak:"Danke",ex:"Danke — Ташаккур"},
-      {q:"«Номи ман Али аст» чӣ мешавад?",
-       options:["Ich heiße Ali","Ich bin müde","Ich komme morgen"],
-       correct:0,speak:"Ich heiße Ali",ex:"Ich heiße Ali — Номи ман Али аст"},
-      {q:"«Аҳволат чӣ хел?» чӣ мешавад?",
-       options:["Wo wohnst du?","Wie geht es dir?","Wie alt bist du?"],
-       correct:1,speak:"Wie geht es dir?",
-       ex:"Wie geht es dir? — Аҳволат чӣ хел?"}
-    ]
-  },
-  {
-    title:"Оила ва одамон",icon:"👨‍👩‍👧",
-    questions:[
-      {q:"«Модар» ба олмонӣ чӣ мешавад?",
-       options:["Vater","Mutter","Bruder"],correct:1,
-       speak:"Mutter",ex:"die Mutter — Модар"},
-      {q:"«Падар» чӣ мешавад?",
-       options:["Vater","Schwester","Kind"],correct:0,
-       speak:"Vater",ex:"der Vater — Падар"},
-      {q:"«Бародар» чӣ мешавад?",
-       options:["Schwester","Bruder","Tochter"],correct:1,
-       speak:"Bruder",ex:"der Bruder — Бародар"},
-      {q:"«Ман ду фарзанд дорам» чӣ мешавад?",
-       options:["Ich habe zwei Kinder","Ich bin zwei Jahre alt","Ich habe zwei Bücher"],
-       correct:0,speak:"Ich habe zwei Kinder",
-       ex:"Ich habe zwei Kinder — Ман ду фарзанд дорам"},
-      {q:"«Ин оилаи ман аст» чӣ мешавад?",
-       options:["Das ist mein Haus","Das ist meine Familie","Das ist mein Auto"],
-       correct:1,speak:"Das ist meine Familie",
-       ex:"Das ist meine Familie — Ин оилаи ман аст"}
-    ]
-  },
-  {
-    title:"Рақамҳо ва синну сол",icon:"🔢",
-    questions:[
-      {q:"«Як» ба олмонӣ чӣ мешавад?",
-       options:["zwei","eins","drei"],correct:1,
-       speak:"eins",ex:"eins — як"},
-      {q:"«Панҷ» чӣ мешавад?",
-       options:["fünf","vier","zehn"],correct:0,
-       speak:"fünf",ex:"fünf — панҷ"},
-      {q:"«Даҳ» чӣ мешавад?",
-       options:["acht","neun","zehn"],correct:2,
-       speak:"zehn",ex:"zehn — даҳ"},
-      {q:"«Ту чандсола ҳастӣ?» чӣ мешавад?",
-       options:["Wie heißt du?","Wie alt bist du?","Wo bist du?"],
-       correct:1,speak:"Wie alt bist du?",
-       ex:"Wie alt bist du? — Ту чандсола ҳастӣ?"},
-      {q:"«Ман 24-сола ҳастам» чӣ мешавад?",
-       options:["Ich bin 24 Jahre alt","Ich habe 24 Euro","Ich komme um 24 Uhr"],
-       correct:0,speak:"Ich bin vierundzwanzig Jahre alt",
-       ex:"Ich bin 24 Jahre alt — Ман 24-сола ҳастам"}
-    ]
-  },
-  {
-    title:"Кор ва зиндагӣ",icon:"💼",
-    questions:[
-      {q:"«Ман кор мекунам» чӣ мешавад?",
-       options:["Ich schlafe","Ich arbeite","Ich esse"],
-       correct:1,speak:"Ich arbeite",ex:"Ich arbeite — Ман кор мекунам"},
-      {q:"«Ман дар Олмон зиндагӣ мекунам» чӣ мешавад?",
-       options:["Ich wohne in Deutschland","Ich komme aus Berlin","Ich lerne Deutsch"],
-       correct:0,speak:"Ich wohne in Deutschland",
-       ex:"Ich wohne in Deutschland — Ман дар Олмон зиндагӣ мекунам"},
-      {q:"«Имрӯз» чӣ мешавад?",
-       options:["gestern","morgen","heute"],correct:2,
-       speak:"heute",ex:"heute — имрӯз"},
-      {q:"«Ман забони олмонӣ меомӯзам» чӣ мешавад?",
-       options:["Ich lerne Deutsch","Ich spreche Tajikisch","Ich brauche Wasser"],
-       correct:0,speak:"Ich lerne Deutsch",
-       ex:"Ich lerne Deutsch — Ман забони олмонӣ меомӯзам"},
-      {q:"«Соати чанд?» чӣ мешавад?",
-       options:["Wie viel kostet das?","Wie spät ist es?","Wo ist das?"],
-       correct:1,speak:"Wie spät ist es?",
-       ex:"Wie spät ist es? — Соати чанд аст?"}
-    ]
-  },
-  {
-    title:"Хӯрок ва харид",icon:"🛒",
-    questions:[
-      {q:"«Об» ба олмонӣ чӣ мешавад?",
-       options:["Brot","Wasser","Milch"],correct:1,
-       speak:"Wasser",ex:"das Wasser — Об"},
-      {q:"«Нон» чӣ мешавад?",
-       options:["Brot","Reis","Apfel"],correct:0,
-       speak:"Brot",ex:"das Brot — Нон"},
-      {q:"«Ин чанд пул аст?» чӣ мешавад?",
-       options:["Wie heißt das?","Wie viel kostet das?","Was machst du?"],
-       correct:1,speak:"Wie viel kostet das?",
-       ex:"Wie viel kostet das? — Ин чанд пул аст?"},
-      {q:"«Ман об мехоҳам» чӣ мешавад?",
-       options:["Ich möchte Wasser","Ich kaufe ein Auto","Ich habe Hunger"],
-       correct:0,speak:"Ich möchte Wasser",
-       ex:"Ich möchte Wasser — Ман об мехоҳам"},
-      {q:"«Ҳисоб, лутфан» чӣ мешавад?",
-       options:["Guten Appetit","Die Rechnung, bitte","Gute Reise"],
-       correct:1,speak:"Die Rechnung, bitte",
-       ex:"Die Rechnung, bitte — Ҳисоб, лутфан"}
-    ]
-  }
+/* Маълумоти омӯзишӣ */
+const units=[
+["A1","👋","Салом ва шиносоӣ",[
+["Hallo","Салом"],["Guten Morgen","Субҳ ба хайр"],
+["Guten Abend","Шом ба хайр"],["Danke","Ташаккур"],
+["Bitte","Лутфан"],["Tschüss","Хайр"],
+["Wie heißt du?","Номат чист?"],
+["Ich heiße Ali","Номи ман Али аст"]
+]],
+["A1","👨‍👩‍👧","Оила",[
+["die Mutter","Модар"],["der Vater","Падар"],
+["der Bruder","Бародар"],["die Schwester","Хоҳар"],
+["das Kind","Фарзанд"],["die Familie","Оила"],
+["mein Sohn","Писари ман"],["meine Tochter","Духтари ман"]
+]],
+["A1","🔢","Рақамҳо",[
+["eins","Як"],["zwei","Ду"],["drei","Се"],
+["vier","Чор"],["fünf","Панҷ"],["sechs","Шаш"],
+["sieben","Ҳафт"],["zehn","Даҳ"]
+]],
+["A1","🌍","Кишварҳо",[
+["Deutschland","Олмон"],["Tadschikistan","Тоҷикистон"],
+["die Stadt","Шаҳр"],["das Land","Кишвар"],
+["Ich komme aus Tadschikistan","Ман аз Тоҷикистон ҳастам"],
+["Ich wohne in Deutschland","Ман дар Олмон зиндагӣ мекунам"],
+["Woher kommst du?","Ту аз куҷо ҳастӣ?"],
+["Wo wohnst du?","Ту дар куҷо зиндагӣ мекунӣ?"]
+]],
+["A1","💼","Кор",[
+["arbeiten","Кор кардан"],["der Beruf","Касб"],
+["der Chef","Роҳбар"],["der Kollege","Ҳамкор"],
+["die Arbeit","Кор"],["die Pause","Танаффус"],
+["Ich arbeite heute","Ман имрӯз кор мекунам"],
+["Ich bin müde","Ман хаста ҳастам"]
+]],
+["A1","🍎","Хӯрок",[
+["das Brot","Нон"],["das Wasser","Об"],
+["die Milch","Шир"],["der Apfel","Себ"],
+["der Reis","Биринҷ"],["das Fleisch","Гӯшт"],
+["Ich habe Hunger","Ман гурусна ҳастам"],
+["Ich habe Durst","Ман ташна ҳастам"]
+]],
+["A1","🛒","Харид",[
+["kaufen","Харидан"],["verkaufen","Фурӯхтан"],
+["der Preis","Нарх"],["das Geld","Пул"],
+["teuer","Қимат"],["billig","Арзон"],
+["Wie viel kostet das?","Ин чанд пул аст?"],
+["Ich möchte das kaufen","Ман инро харидан мехоҳам"]
+]],
+["A1","🏠","Хона",[
+["das Haus","Хона"],["die Wohnung","Манзил"],
+["das Zimmer","Ҳуҷра"],["die Küche","Ошхона"],
+["das Bad","Ҳаммом"],["die Tür","Дар"],
+["das Fenster","Тиреза"],["das Bett","Кат"]
+]],
+["A1","🕒","Вақт",[
+["heute","Имрӯз"],["morgen","Пагоҳ"],
+["gestern","Дирӯз"],["die Stunde","Соат"],
+["die Minute","Дақиқа"],["die Woche","Ҳафта"],
+["Wie spät ist es?","Соати чанд аст?"],
+["Ich komme morgen","Ман пагоҳ меоям"]
+]],
+["A1","🚗","Нақлиёт",[
+["das Auto","Мошин"],["der Bus","Автобус"],
+["der Zug","Қатора"],["das Fahrrad","Дучарха"],
+["fahren","Рафтан бо нақлиёт"],
+["die Straße","Кӯча"],
+["der Bahnhof","Истгоҳи қатора"],
+["die Fahrkarte","Чипта"]
+]],
+["A1","🌦️","Обу ҳаво",[
+["die Sonne","Офтоб"],["der Regen","Борон"],
+["der Schnee","Барф"],["der Wind","Шамол"],
+["warm","Гарм"],["kalt","Хунук"],
+["Es regnet","Борон меборад"],
+["Es ist kalt","Ҳаво хунук аст"]
+]],
+["A1","🧍","Бадан",[
+["der Kopf","Сар"],["die Hand","Даст"],
+["der Fuß","Пой"],["das Auge","Чашм"],
+["das Ohr","Гӯш"],["der Mund","Даҳон"],
+["der Bauch","Шикам"],["der Rücken","Пушт"]
+]],
+["A1","🏥","Саломатӣ",[
+["der Arzt","Духтур"],["das Krankenhaus","Беморхона"],
+["krank","Бемор"],["gesund","Солим"],
+["die Schmerzen","Дардҳо"],
+["Ich bin krank","Ман бемор ҳастам"],
+["Ich brauche Hilfe","Ба ман ёрӣ лозим аст"],
+["Mir geht es gut","Аҳволам хуб аст"]
+]],
+["A1","🎨","Рангҳо",[
+["rot","Сурх"],["blau","Кабуд"],
+["grün","Сабз"],["gelb","Зард"],
+["weiß","Сафед"],["schwarz","Сиёҳ"],
+["braun","Қаҳваранг"],["grau","Хокистарӣ"]
+]],
+["A1","📅","Рӯзҳои ҳафта",[
+["Montag","Душанбе"],["Dienstag","Сешанбе"],
+["Mittwoch","Чоршанбе"],["Donnerstag","Панҷшанбе"],
+["Freitag","Ҷумъа"],["Samstag","Шанбе"],
+["Sonntag","Якшанбе"],["das Wochenende","Охири ҳафта"]
+]],
+["A2","🗣️","Муколама",[
+["Was machst du?","Ту чӣ кор мекунӣ?"],
+["Ich lerne Deutsch","Ман олмонӣ меомӯзам"],
+["Kannst du mir helfen?","Метавонӣ ба ман ёрӣ диҳӣ?"],
+["Ich verstehe nicht","Ман намефаҳмам"],
+["Bitte wiederholen","Лутфан такрор кунед"],
+["Sprich bitte langsam","Лутфан оҳиста гап зан"],
+["Kein Problem","Ҳеҷ мушкил нест"],
+["Das ist richtig","Ин дуруст аст"]
+]],
+["A2","📝","Феълҳо",[
+["gehen","Рафтан"],["kommen","Омадан"],
+["machen","Кардан"],["sehen","Дидан"],
+["hören","Шунидан"],["sprechen","Гап задан"],
+["schreiben","Навиштан"],["lesen","Хондан"]
+]],
+["A2","🛠️","Кори ҳаррӯза",[
+["Ich stehe früh auf","Ман барвақт мехезам"],
+["Ich gehe zur Arbeit","Ман ба кор меравам"],
+["Ich mache eine Pause","Ман танаффус мекунам"],
+["Ich komme nach Hause","Ман ба хона меоям"],
+["Ich koche das Essen","Ман хӯрок мепазам"],
+["Ich gehe schlafen","Ман ба хоб меравам"],
+["Ich habe Feierabend","Корам тамом шуд"],
+["Ich bin beschäftigt","Ман банд ҳастам"]
+]],
+["A2","🏢","Идора",[
+["der Termin","Вақти таъиншуда"],
+["der Antrag","Ариза"],["das Formular","Варақа"],
+["die Unterschrift","Имзо"],["der Ausweis","Ҳуҷҷати шахсият"],
+["die Behörde","Идора"],
+["Ich habe einen Termin","Ман вақти қабул дорам"],
+["Wo muss ich unterschreiben?","Дар куҷо бояд имзо кунам?"]
+]],
+["A2","💶","Пул ва бонк",[
+["das Konto","Ҳисоб"],["die Bank","Бонк"],
+["überweisen","Интиқоли пул кардан"],
+["abheben","Пул гирифтан"],
+["einzahlen","Пул гузоштан"],
+["die Rechnung","Ҳисобнома"],
+["die Gebühr","Хироҷ"],
+["Ich möchte Geld überweisen","Ман пул гузарондан мехоҳам"]
+]],
+["A2","🚉","Сафар",[
+["die Reise","Сафар"],["der Flughafen","Фурудгоҳ"],
+["die Abfahrt","Ҳаракат"],["die Ankunft","Расидан"],
+["die Verspätung","Дермонӣ"],
+["umsteigen","Нақлиёт иваз кардан"],
+["Der Zug hat Verspätung","Қатора дер мекунад"],
+["Wo ist Gleis drei?","Платформаи се дар куҷост?"]
+]],
+["A2","📞","Телефон",[
+["anrufen","Занг задан"],["antworten","Ҷавоб додан"],
+["die Nachricht","Паём"],["die Nummer","Рақам"],
+["das Gespräch","Суҳбат"],
+["Ich rufe dich an","Ман ба ту занг мезанам"],
+["Schreib mir bitte","Лутфан ба ман навис"],
+["Ich bin erreichbar","Бо ман тамос гирифтан мумкин аст"]
+]],
+["A2","🏘️","Иҷора",[
+["die Miete","Иҷорапулӣ"],
+["der Mietvertrag","Шартномаи иҷора"],
+["der Vermieter","Соҳибхона"],
+["die Kaution","Гаравпулӣ"],
+["die Nebenkosten","Хароҷоти иловагӣ"],
+["die Heizung","Гармидиҳӣ"],
+["Ich suche eine Wohnung","Ман хона меҷӯям"],
+["Ist die Wohnung frei?","Оё хона холӣ аст?"]
+]],
+["A2","📚","Омӯзиш",[
+["die Prüfung","Имтиҳон"],
+["die Aufgabe","Супориш"],
+["die Lösung","Ҳал"],
+["der Fehler","Хато"],
+["die Erklärung","Шарҳ"],
+["Ich habe bestanden","Ман имтиҳонро гузаштам"],
+["Ich muss üben","Ман бояд машқ кунам"],
+["Ich bereite mich vor","Ман тайёрӣ мебинам"]
+]],
+["A2","🤝","Муносибат",[
+["freundlich","Меҳрубон"],
+["höflich","Боадаб"],
+["ehrlich","Ростқавл"],
+["zufrieden","Қаноатманд"],
+["enttäuscht","Ноумед"],
+["Ich freue mich","Ман хурсанд ҳастам"],
+["Das tut mir leid","Мутаассифам"],
+["Vielen Dank für deine Hilfe","Барои ёриат бисёр ташаккур"]
+]],
+["A2","🕰️","Гузашта",[
+["Ich habe gearbeitet","Ман кор кардам"],
+["Ich habe gelernt","Ман омӯхтам"],
+["Ich bin gegangen","Ман рафтам"],
+["Ich bin gekommen","Ман омадам"],
+["Ich habe gegessen","Ман хӯрок хӯрдам"],
+["Ich habe geschlafen","Ман хоб кардам"],
+["gestern Abend","Дишаб"],
+["letzte Woche","Ҳафтаи гузашта"]
+]],
+["A2","🔮","Оянда",[
+["nächste Woche","Ҳафтаи оянда"],
+["nächstes Jahr","Соли оянда"],
+["bald","Ба наздикӣ"],
+["später","Баъдтар"],
+["Ich werde lernen","Ман хоҳам омӯхт"],
+["Ich werde arbeiten","Ман кор хоҳам кард"],
+["Ich habe vor zu reisen","Ман нияти сафар кардан дорам"],
+["Ich komme später","Ман баъдтар меоям"]
+]],
+["A2","💬","Фикр баён кардан",[
+["Ich denke","Ман фикр мекунам"],
+["Ich glaube","Ман бовар дорам / фикр мекунам"],
+["meiner Meinung nach","Ба фикри ман"],
+["vielleicht","Шояд"],
+["wahrscheinlich","Эҳтимол"],
+["Ich bin einverstanden","Ман розӣ ҳастам"],
+["Ich bin dagegen","Ман мухолиф ҳастам"],
+["Das ist wichtig","Ин муҳим аст"]
+]],
+["A2","⚖️","Муқоиса",[
+["größer","Калонтар"],
+["kleiner","Хурдтар"],
+["besser","Беҳтар"],
+["schlechter","Бадтар"],
+["schneller","Тезтар"],
+["langsamer","Оҳистатар"],
+["teurer","Қиматтар"],
+["günstiger","Арзонтар"]
+]],
+["A2","🎯","Ҳадафҳо",[
+["das Ziel","Ҳадаф"],
+["der Plan","Нақша"],
+["die Zukunft","Оянда"],
+["die Erfahrung","Таҷриба"],
+["die Möglichkeit","Имконият"],
+["Ich möchte mich verbessern","Ман мехоҳам беҳтар шавам"],
+["Ich gebe nicht auf","Ман таслим намешавам"],
+["Ich schaffe das","Ман ин корро карда метавонам"]
+]]
 ];
 
-const vocabulary=[
-  ["Hallo","Салом"],["Guten Morgen","Субҳ ба хайр"],
-  ["Danke","Ташаккур"],["Bitte","Лутфан / Марҳамат"],
-  ["Wie geht es dir?","Аҳволат чӣ хел?"],
-  ["Ich heiße...","Номи ман ... аст"],
-  ["die Mutter","Модар"],["der Vater","Падар"],
-  ["der Bruder","Бародар"],["die Schwester","Хоҳар"],
-  ["die Familie","Оила"],["das Kind","Фарзанд"],
-  ["eins","Як"],["zwei","Ду"],["fünf","Панҷ"],
-  ["zehn","Даҳ"],["heute","Имрӯз"],
-  ["morgen","Пагоҳ"],["arbeiten","Кор кардан"],
-  ["lernen","Омӯхтан"],["das Wasser","Об"],
-  ["das Brot","Нон"],["die Milch","Шир"],
-  ["Wie viel kostet das?","Ин чанд пул аст?"]
+/* Саволҳои махсуси грамматикӣ */
+const grammar=[
+{
+title:"Артиклҳо: der, die, das",
+text:"Дар олмонӣ исмҳо ҷинси грамматикӣ доранд. der — мардона, die — занона, das — миёна. Артиклро ҳамроҳи калима омӯз.",
+example:"der Mann — мард; die Frau — зан; das Kind — кӯдак."
+},
+{
+title:"Феъли sein — будан",
+text:"ich bin — ман ҳастам; du bist — ту ҳастӣ; er/sie/es ist — ӯ ҳаст; wir sind — мо ҳастем; ihr seid — шумо ҳастед; sie/Sie sind — онҳо/Шумо ҳастанд/ҳастед.",
+example:"Ich bin müde. — Ман хаста ҳастам."
+},
+{
+title:"Феъли haben — доштан",
+text:"ich habe; du hast; er/sie/es hat; wir haben; ihr habt; sie/Sie haben.",
+example:"Ich habe ein Auto. — Ман мошин дорам."
+},
+{
+title:"Ҷойи феъл дар ҷумла",
+text:"Дар ҷумлаи хабарии асосӣ феъли тасрифшуда одатан дар ҷойи дуюм меояд.",
+example:"Heute lerne ich Deutsch. — Имрӯз ман олмонӣ меомӯзам."
+},
+{
+title:"Саволҳои Ja/Nein",
+text:"Дар саволи бе калимаи саволӣ феъли тасрифшуда одатан дар ҷойи аввал меояд.",
+example:"Arbeitest du heute? — Ту имрӯз кор мекунӣ?"
+},
+{
+title:"Саволҳои W",
+text:"Калимаҳои саволӣ: wer — кӣ, was — чӣ, wo — куҷо, wann — кай, warum — чаро, wie — чӣ гуна.",
+example:"Wo wohnst du? — Ту дар куҷо зиндагӣ мекунӣ?"
+},
+{
+title:"Akkusativ",
+text:"Барои объекти мустақим истифода мешавад. der → den; ein → einen (мардона). die ва das дар шакли муайян бетағйир мемонанд.",
+example:"Ich sehe den Mann. — Ман мардро мебинам."
+},
+{
+title:"Dativ",
+text:"Аксаран барои объекти ғайримустақим истифода мешавад. der/das → dem; die → der; ҷамъ → den.",
+example:"Ich helfe dem Mann. — Ман ба мард ёрӣ медиҳам."
+},
+{
+title:"Феълҳои ҷудошаванда",
+text:"Пешванди феъли ҷудошаванда дар ҷумлаи асосӣ одатан ба охир меравад.",
+example:"Ich stehe um sechs Uhr auf. — Ман соати шаш мехезам."
+},
+{
+title:"Perfekt — замони гузашта",
+text:"Аксари феълҳо бо haben + Partizip II ва баъзеҳо бо sein + Partizip II сохта мешаванд.",
+example:"Ich habe gearbeitet. — Ман кор кардам."
+},
+{
+title:"Modalverben",
+text:"können — тавонистан; müssen — маҷбур будан; dürfen — иҷозат доштан; wollen — хостан; sollen — бояд; mögen — писандидан.",
+example:"Ich muss arbeiten. — Ман бояд кор кунам."
+},
+{
+title:"Ҷумла бо weil",
+text:"Дар ҷумлаи тобеъ бо weil феъли тасрифшуда одатан ба охир меравад.",
+example:"Ich bleibe zu Hause, weil ich krank bin."
+},
+{
+title:"Ҷумла бо dass",
+text:"dass — ки. Дар ҷумлаи тобеъ феъли тасрифшуда одатан ба охир меравад.",
+example:"Ich glaube, dass er heute kommt."
+},
+{
+title:"Komparativ",
+text:"Барои муқоиса одатан -er истифода мешавад; баъзе сифатҳо шакли махсус доранд.",
+example:"gut → besser; groß → größer; teuer → teurer."
+},
+{
+title:"Futur I",
+text:"werden + Infinitiv. Барои оянда замони ҳозира низ бисёр истифода мешавад.",
+example:"Ich werde morgen arbeiten. — Ман пагоҳ кор хоҳам кард."
+}
 ];
 
-const storageKey="deutschtj_v1";
-let state={xp:0,hearts:5,done:[],streak:0,lastDay:""};
+const key="deutschtj_v2";
+let state={
+xp:0,coins:0,hearts:5,done:[],
+streak:0,lastDay:"",dailyXP:0,dailyDate:"",
+mistakes:[],best:0
+};
+
 try{
-  const saved=JSON.parse(localStorage.getItem(storageKey)||"null");
-  if(saved&&typeof saved==="object"){
-    state={...state,...saved};
-    if(!Array.isArray(state.done))state.done=[];
-  }
-}catch(e){console.warn("Маълумот хонда нашуд",e)}
-
-let lessonIndex=0;
-let questionIndex=0;
-let selected=-1;
-let checked=false;
-let earned=0;
-let correctCount=0;
+const old=JSON.parse(localStorage.getItem(key)||
+localStorage.getItem("deutschtj_v1")||"null");
+if(old&&typeof old==="object"){
+state={...state,...old};
+if(!Array.isArray(state.done))state.done=[];
+if(!Array.isArray(state.mistakes))state.mistakes=[];
+}
+}catch(e){console.warn(e)}
 
 const $=id=>document.getElementById(id);
 const today=()=>new Date().toLocaleDateString("en-CA");
 
+let activeLesson=0;
+let questions=[];
+let qi=0,selected=-1,checked=false;
+let earned=0,correctCount=0;
+let assembled=[];
+let speechTarget="";
+
 function save(){
-  localStorage.setItem(storageKey,JSON.stringify(state));
+try{localStorage.setItem(key,JSON.stringify(state))}
+catch(e){console.warn("Save failed",e)}
 }
 
-function refreshStats(){
-  $("xp").textContent=state.xp;
-  $("hearts").textContent=state.hearts;
-  $("streak").textContent=state.streak;
-  $("lessonHeart").textContent="❤️ "+state.hearts;
+function updateStats(){
+$("xp").textContent=state.xp;
+$("coins").textContent=state.coins;
+$("hearts").textContent=state.hearts;
+$("streak").textContent=state.streak;
+$("lessonHearts").textContent="❤️ "+state.hearts;
 }
 
-function renderPath(){
-  $("lessonPath").innerHTML="";
-  lessons.forEach((lesson,i)=>{
-    const unlocked=i===0||state.done.includes(i-1);
-    const completed=state.done.includes(i);
-    const b=document.createElement("button");
-    b.className="lesson"+(unlocked?"":" locked");
-    b.disabled=!unlocked;
-    const circle=document.createElement("div");
-    circle.className="circle";
-    circle.textContent=completed?"✓":lesson.icon;
-    const info=document.createElement("div");
-    const strong=document.createElement("strong");
-    strong.textContent="Дарси "+(i+1)+": "+lesson.title;
-    const small=document.createElement("small");
-    small.textContent=completed?"Гузашта шуд ✓":
-      unlocked?"Барои оғоз пахш кун":"🔒 Аввал дарси пешинаро гузар";
-    info.append(strong,small);
-    b.append(circle,info);
-    b.onclick=()=>startLesson(i);
-    $("lessonPath").appendChild(b);
-  });
+function escapeHTML(s){
+return String(s).replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"
+}[c]));
 }
 
 function showTab(id){
-  ["home","lessonScreen","resultScreen","wordsScreen","profileScreen"]
-  .forEach(x=>$(x).classList.toggle("hidden",x!==id));
-  document.querySelectorAll(".nav").forEach(n=>
-    n.classList.toggle("active",n.dataset.tab===id));
-  if(id==="home")renderPath();
-  if(id==="wordsScreen")renderWords();
-  if(id==="profileScreen")renderProfile();
-  refreshStats();
-  window.scrollTo(0,0);
+["home","lessonScreen","resultScreen","wordsScreen",
+"grammarScreen","profileScreen"].forEach(x=>
+$(x).classList.toggle("hidden",x!==id));
+document.querySelectorAll(".nav").forEach(n=>
+n.classList.toggle("active",n.dataset.tab===id));
+if(id==="home")renderPath();
+if(id==="wordsScreen")renderWords();
+if(id==="grammarScreen")renderGrammar();
+if(id==="profileScreen")renderProfile();
+updateStats();
+window.scrollTo(0,0);
 }
 
 function goHome(){showTab("home")}
 
+function renderPath(){
+const el=$("lessonPath");
+el.innerHTML="";
+let currentLevel="";
+units.forEach((u,i)=>{
+if(u[0]!==currentLevel){
+currentLevel=u[0];
+const title=document.createElement("div");
+title.className="levelTitle";
+title.style.background=currentLevel==="A1"?"#58cc02":"#a560ee";
+title.textContent="📚 Сатҳи "+currentLevel;
+el.appendChild(title);
+}
+const unlocked=i===0||state.done.includes(i-1);
+const completed=state.done.includes(i);
+const btn=document.createElement("button");
+btn.className="node"+(unlocked?"":" locked");
+btn.disabled=!unlocked;
+btn.innerHTML=
+'<div class="nodeIcon">'+(completed?"✓":u[1])+'</div>'+
+'<div><strong>Дарси '+(i+1)+": "+escapeHTML(u[2])+
+'</strong><small>'+(completed?"Гузашта шуд ✓":
+unlocked?"Барои оғоз пахш кун":"🔒 Қулф")+
+'</small></div>';
+btn.onclick=()=>startLesson(i);
+el.appendChild(btn);
+});
+const d=state.dailyDate===today()?state.dailyXP:0;
+$("dailyFill").style.width=Math.min(100,d/50*100)+"%";
+$("dailyText").textContent=d+"/50 XP имрӯз";
+}
+
+function shuffle(arr){
+const a=[...arr];
+for(let i=a.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[a[i],a[j]]=[a[j],a[i]];
+}
+return a;
+}
+
+function normalize(s){
+return String(s).toLocaleLowerCase("de-DE")
+.normalize("NFC").replace(/[.,!?;:]/g,"")
+.replace(/\s+/g," ").trim();
+}
+
+function makeQuestions(index){
+const words=units[index][3];
+const all=units.flatMap(u=>u[3]);
+let result=[];
+
+words.forEach((pair,i)=>{
+const [de,tg]=pair;
+const distractors=shuffle(
+all.filter(p=>p[0]!==de&&p[1]!==tg)
+.map(p=>p[1]).filter((v,j,a)=>a.indexOf(v)===j)
+).slice(0,3);
+const opts=shuffle([tg,...distractors]);
+result.push({
+type:"choice",q:"«"+de+"» чӣ маъно дорад?",
+options:opts,answer:tg,speak:de,
+ex:de+" — "+tg
+});
+});
+
+for(let i=0;i<3;i++){
+const pair=words[i];
+result.push({
+type:"write",
+q:"Ба олмонӣ навис: «"+pair[1]+"»",
+answer:pair[0],speak:pair[0],
+ex:pair[0]+" — "+pair[1]
+});
+}
+
+const sentence=words.find(p=>p[0].includes(" ")&&
+p[0].split(/\s+/).length>=3);
+
+if(sentence){
+result.push({
+type:"build",
+q:"Ҷумларо дуруст соз: "+sentence[1],
+answer:sentence[0],
+tokens:shuffle(sentence[0].split(/\s+/)),
+speak:sentence[0],
+ex:sentence[0]+" — "+sentence[1]
+});
+}
+
+result=shuffle(result);
+return result.slice(0,10);
+}
+
 function startLesson(i){
-  if(i>0&&!state.done.includes(i-1))return;
-  if(state.hearts<=0){
-    alert("Дилҳо тамом шуданд. Ба профил рафта онҳоро барқарор кун.");
-    return;
-  }
-  lessonIndex=i;
-  questionIndex=0;
-  selected=-1;
-  checked=false;
-  earned=0;
-  correctCount=0;
-  showTab("lessonScreen");
-  renderQuestion();
+if(i>0&&!state.done.includes(i-1))return;
+if(state.hearts<=0){
+alert("Дилҳо тамом шудаанд. Дар профил онҳоро барқарор кун.");
+return;
+}
+activeLesson=i;
+questions=makeQuestions(i);
+qi=0;earned=0;correctCount=0;
+showTab("lessonScreen");
+renderQuestion();
 }
 
 function renderQuestion(){
-  const item=lessons[lessonIndex].questions[questionIndex];
-  selected=-1;
-  checked=false;
-  $("lessonLabel").textContent="A1 • "+lessons[lessonIndex].title;
-  $("question").textContent=item.q;
-  $("progressFill").style.width=
-    (questionIndex/lessons[lessonIndex].questions.length*100)+"%";
-  $("answers").innerHTML="";
-  item.options.forEach((answer,i)=>{
-    const btn=document.createElement("button");
-    btn.className="answer";
-    btn.textContent=answer;
-    btn.onclick=()=>selectAnswer(i);
-    $("answers").appendChild(btn);
-  });
-  $("listenBtn").classList.toggle("hidden",!item.speak);
-  $("feedback").classList.add("hidden");
-  $("checkBtn").textContent="САНҶИДАН";
-  $("checkBtn").disabled=true;
-  refreshStats();
+const item=questions[qi];
+selected=-1;checked=false;assembled=[];
+$("lessonLabel").textContent=units[activeLesson][0]+
+" • "+units[activeLesson][2];
+$("question").textContent=item.q;
+$("lessonFill").style.width=(qi/questions.length*100)+"%";
+$("answerArea").innerHTML="";
+$("questionTools").innerHTML="";
+$("feedback").classList.add("hidden");
+$("checkBtn").disabled=true;
+$("checkBtn").textContent="САНҶИДАН";
+
+const listen=document.createElement("button");
+listen.className="speaker";
+listen.textContent="🔊 Шунидани олмонӣ";
+listen.onclick=()=>speak(item.speak);
+$("questionTools").appendChild(listen);
+
+if(item.type==="choice"){
+item.options.forEach((opt,i)=>{
+const b=document.createElement("button");
+b.className="answer";
+b.textContent=opt;
+b.onclick=()=>{
+if(checked)return;
+selected=i;
+document.querySelectorAll(".answer").forEach((x,j)=>
+x.classList.toggle("selected",i===j));
+$("checkBtn").disabled=false;
+};
+$("answerArea").appendChild(b);
+});
+}
+if(item.type==="write"){
+const inp=document.createElement("input");
+inp.className="textInput";
+inp.id="writeInput";
+inp.placeholder="Ҷавобро ба олмонӣ навис...";
+inp.autocomplete="off";
+inp.oninput=()=>{$("checkBtn").disabled=!inp.value.trim()};
+$("answerArea").appendChild(inp);
+}
+if(item.type==="build"){
+const selectedArea=document.createElement("div");
+selectedArea.className="tokens";
+selectedArea.id="selectedTokens";
+$("answerArea").appendChild(selectedArea);
+const available=document.createElement("div");
+available.className="tokens";
+available.id="availableTokens";
+available.style.marginTop="12px";
+$("answerArea").appendChild(available);
+item.tokens.forEach((token,i)=>{
+const b=document.createElement("button");
+b.className="token";
+b.textContent=token;
+b.onclick=()=>{
+if(checked)return;
+if(assembled.some(x=>x.id===i))return;
+assembled.push({id:i,text:token});
+drawTokens(item);
+};
+available.appendChild(b);
+});
+}
+updateStats();
 }
 
-function selectAnswer(i){
-  if(checked)return;
-  selected=i;
-  document.querySelectorAll(".answer").forEach((btn,index)=>{
-    btn.classList.toggle("selected",index===i);
-  });
-  $("checkBtn").disabled=false;
+function drawTokens(item){
+const area=$("selectedTokens");
+area.innerHTML="";
+assembled.forEach((t,i)=>{
+const b=document.createElement("button");
+b.className="token";
+b.textContent=t.text+" ✕";
+b.onclick=()=>{
+if(checked)return;
+assembled.splice(i,1);
+drawTokens(item);
+};
+area.appendChild(b);
+});
+[...$("availableTokens").children].forEach((b,i)=>{
+b.disabled=assembled.some(t=>t.id===i);
+b.classList.toggle("used",b.disabled);
+});
+$("checkBtn").disabled=assembled.length===0;
 }
 
 function checkAnswer(){
-  if(!checked){
-    if(selected<0)return;
-    const item=lessons[lessonIndex].questions[questionIndex];
-    const good=selected===item.correct;
-    checked=true;
-    document.querySelectorAll(".answer").forEach((btn,index)=>{
-      btn.disabled=true;
-      btn.classList.remove("selected");
-      if(index===item.correct)btn.classList.add("correct");
-      else if(index===selected)btn.classList.add("wrong");
-    });
-    if(good){
-      earned+=10;
-      correctCount++;
-    }else{
-      state.hearts=Math.max(0,state.hearts-1);
-    }
-    $("feedback").textContent=(good?"🎉 Офарин! ":"❌ Хато. ")+item.ex;
-    $("feedback").classList.remove("hidden");
-    $("checkBtn").textContent="ИДОМА";
-    refreshStats();
-    save();
-    return;
-  }
-  questionIndex++;
-  if(questionIndex>=lessons[lessonIndex].questions.length){
-    finishLesson();
-  }else if(state.hearts<=0){
-    alert("Дилҳо тамом шуданд. Дарсро баъдтар идома деҳ.");
-    goHome();
-  }else{
-    renderQuestion();
-  }
+const item=questions[qi];
+if(!checked){
+let response="";
+if(item.type==="choice"){
+if(selected<0)return;
+response=item.options[selected];
+}else if(item.type==="write"){
+response=$("writeInput").value;
+}else{
+response=assembled.map(x=>x.text).join(" ");
+}
+const good=normalize(response)===normalize(item.answer);
+checked=true;
+if(good){
+earned+=10;correctCount++;
+}else{
+state.hearts=Math.max(0,state.hearts-1);
+state.mistakes.push({
+de:item.speak,tg:item.ex,
+date:today()
+});
+state.mistakes=state.mistakes.slice(-100);
+}
+if(item.type==="choice"){
+document.querySelectorAll(".answer").forEach((b,i)=>{
+b.disabled=true;
+if(item.options[i]===item.answer)b.classList.add("correct");
+else if(i===selected)b.classList.add("wrong");
+});
+}
+$("feedback").textContent=(good?"🎉 Дуруст! ":"❌ Нодуруст. ")+item.ex;
+$("feedback").classList.remove("hidden");
+$("checkBtn").textContent="ИДОМА";
+$("checkBtn").disabled=false;
+updateStats();save();
+return;
+}
+qi++;
+if(qi>=questions.length){
+finishLesson();
+}else if(state.hearts<=0){
+alert("Дилҳо тамом шуданд.");
+goHome();
+}else{
+renderQuestion();
+}
 }
 
 function updateStreak(){
-  const d=today();
-  if(state.lastDay===d)return;
-  if(state.lastDay){
-    const prev=new Date(state.lastDay+"T12:00:00");
-    const now=new Date(d+"T12:00:00");
-    const diff=Math.round((now-prev)/86400000);
-    state.streak=diff===1?state.streak+1:1;
-  }else{
-    state.streak=1;
-  }
-  state.lastDay=d;
+const d=today();
+if(state.lastDay===d)return;
+if(state.lastDay){
+const diff=Math.round((
+new Date(d+"T12:00:00")-
+new Date(state.lastDay+"T12:00:00")
+)/86400000);
+state.streak=diff===1?state.streak+1:1;
+}else state.streak=1;
+state.lastDay=d;
 }
 
 function finishLesson(){
-  state.xp+=earned;
-  updateStreak();
-  if(!state.done.includes(lessonIndex))state.done.push(lessonIndex);
-  save();
-  refreshStats();
-  showTab("resultScreen");
-  $("resultText").textContent=
-    "Ҷавобҳои дуруст: "+correctCount+"/"+
-    lessons[lessonIndex].questions.length+
-    " • XP гирифташуда: +"+earned;
+state.xp+=earned;
+state.coins+=Math.floor(earned/2);
+if(state.dailyDate!==today()){
+state.dailyDate=today();
+state.dailyXP=0;
+}
+state.dailyXP+=earned;
+updateStreak();
+if(!state.done.includes(activeLesson))
+state.done.push(activeLesson);
+state.best=Math.max(state.best,correctCount);
+save();updateStats();
+showTab("resultScreen");
+$("resultText").textContent=
+"Ҷавобҳои дуруст: "+correctCount+"/"+questions.length+
+" | +"+earned+" XP | +"+Math.floor(earned/2)+" танга";
 }
 
 function speak(text){
-  if(!("speechSynthesis" in window)){
-    alert("Ин браузер талаффузи овозиро дастгирӣ намекунад.");
-    return;
-  }
-  speechSynthesis.cancel();
-  const utterance=new SpeechSynthesisUtterance(text);
-  utterance.lang="de-DE";
-  utterance.rate=.85;
-  speechSynthesis.speak(utterance);
+if(!("speechSynthesis" in window)){
+alert("Ин браузер овозро дастгирӣ намекунад.");
+return;
 }
-
-function listenQuestion(){
-  const item=lessons[lessonIndex].questions[questionIndex];
-  speak(item.speak);
+speechSynthesis.cancel();
+const u=new SpeechSynthesisUtterance(text);
+u.lang="de-DE";u.rate=.85;
+speechSynthesis.speak(u);
 }
 
 function renderWords(){
-  $("wordList").innerHTML="";
-  vocabulary.forEach(([de,tg])=>{
-    const row=document.createElement("div");
-    row.className="word";
-    const info=document.createElement("div");
-    const strong=document.createElement("strong");
-    strong.textContent=de;
-    const small=document.createElement("small");
-    small.textContent=tg;
-    info.append(strong,small);
-    const btn=document.createElement("button");
-    btn.className="speaker";
-    btn.textContent="🔊";
-    btn.onclick=()=>speak(de);
-    row.append(info,btn);
-    $("wordList").appendChild(row);
-  });
+const term=normalize($("wordSearch").value);
+$("wordList").innerHTML="";
+const seen=new Set();
+units.flatMap(u=>u[3]).forEach(([de,tg])=>{
+if(seen.has(de))return;
+seen.add(de);
+if(!normalize(de+" "+tg).includes(term))return;
+const row=document.createElement("div");
+row.className="word row between";
+const info=document.createElement("div");
+const strong=document.createElement("strong");
+strong.textContent=de;
+const small=document.createElement("small");
+small.textContent=tg;
+info.append(strong,small);
+const btn=document.createElement("button");
+btn.className="speaker";
+btn.textContent="🔊";
+btn.onclick=()=>speak(de);
+row.append(info,btn);
+$("wordList").appendChild(row);
+});
+}
+
+function renderGrammar(){
+$("grammarList").innerHTML="";
+grammar.forEach((g,i)=>{
+const c=document.createElement("div");
+c.className="card grammar";
+const h=document.createElement("h3");
+h.textContent=(i+1)+". "+g.title;
+const p=document.createElement("p");
+p.textContent=g.text;
+const ex=document.createElement("div");
+ex.className="feedback";
+ex.textContent="Мисол: "+g.example;
+const b=document.createElement("button");
+b.className="speaker";
+b.textContent="🔊 Шунидани мисол";
+b.onclick=()=>speak(g.example.split(" — ")[0]);
+c.append(h,p,ex,b);
+$("grammarList").appendChild(c);
+});
 }
 
 function renderProfile(){
-  $("profileXP").textContent=state.xp;
-  $("profileStreak").textContent=state.streak+" рӯз";
-  $("profileDone").textContent=state.done.length+"/"+lessons.length;
-  $("profileHearts").textContent=state.hearts+"/5";
+$("profileXP").textContent=state.xp;
+$("profileCoins").textContent=state.coins;
+$("profileStreak").textContent=state.streak+" рӯз";
+$("profileDone").textContent=state.done.length+"/"+units.length;
+$("profileHearts").textContent=state.hearts+"/5";
+const achievements=[
+["🌱","Аввалин дарс",state.done.length>=1],
+["⭐","100 XP",state.xp>=100],
+["🔥","3 рӯз пайдарпай",state.streak>=3],
+["🏆","10 дарс",state.done.length>=10],
+["💎","500 XP",state.xp>=500],
+["👑","30 дарс",state.done.length>=30]
+];
+$("achievements").innerHTML="";
+achievements.forEach(([emoji,title,unlocked])=>{
+const c=document.createElement("div");
+c.className="achievement"+(unlocked?"":" locked");
+c.innerHTML='<div class="emoji">'+emoji+
+'</div><strong>'+escapeHTML(title)+'</strong><p class="small">'+
+(unlocked?"Гирифта шуд ✓":"Ҳанӯз қулф")+"</p>";
+$("achievements").appendChild(c);
+});
 }
 
-function restoreHearts(){
-  state.hearts=5;
-  save();
-  refreshStats();
-  renderProfile();
-  alert("❤️ Дилҳо барқарор шуданд!");
+function buyHearts(){
+if(state.hearts===5){
+alert("Дилҳо аллакай пурраанд.");return;
+}
+if(state.coins<50){
+alert("Барои барқарор кардани дилҳо 50 танга лозим аст.");
+return;
+}
+state.coins-=50;state.hearts=5;
+save();updateStats();renderProfile();
+alert("❤️ Дилҳо барқарор шуданд!");
 }
 
-refreshStats();
+updateStats();
 renderPath();
 </script>
 </body>
